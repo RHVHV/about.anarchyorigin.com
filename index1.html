@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>О сервере — AnarchyOrigin</title>
+<link rel="icon" type="image/png" href="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png">
+<link rel="apple-touch-icon" href="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --o1: #e65c00;
+    --o2: #f9a825;
+    --o3: #ff8c42;
+    --bg: #08080d;
+    --bg2: #0d0d14;
+    --card: rgba(255,255,255,0.03);
+    --card-hover: rgba(255,255,255,0.06);
+    --line: rgba(255,255,255,0.08);
+    --line-accent: rgba(230,92,0,0.35);
+    --t1: #f0f0f5;
+    --t2: #9a9aa8;
+    --t3: #6a6a78;
+    --green: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(230,92,0,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(249,168,37,0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ambient 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes ambient {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(-2%,-2%) scale(1.05); }
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    transition: all 0.4s ease;
+  }
+
+  .nav.scrolled {
+    background: rgba(8,8,13,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+  }
+
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .nav-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(230,92,0,0.35);
+    box-shadow: 0 0 20px rgba(230,92,0,0.2);
+    flex-shrink: 0;
+    background: #0d0d14;
+  }
+
+  .nav-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    padding: 2px 0;
+    background: linear-gradient(135deg, #fff, var(--o3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-links { display: flex; gap: 28px; align-items: center; margin-left: auto; margin-right: auto; }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t2);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover { color: var(--o2); }
+
+  .nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+  .copy-ip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t1);
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .copy-ip:hover { background: rgba(230,92,0,0.12); border-color: var(--line-accent); color: var(--o2); }
+
+  .copy-ip svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+  .copy-ip .ip-label { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; }
+
+  .copy-ip .tip {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    padding: 6px 12px;
+    background: var(--o2);
+    color: #08080d;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .copy-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .burger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .burger:hover { background: rgba(230,92,0,0.12); border-color: var(--line-accent); }
+
+  .burger span { display: block; width: 18px; height: 2px; background: var(--t1); border-radius: 2px; transition: all 0.3s ease; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed;
+    top: 70px;
+    left: 16px;
+    right: 16px;
+    background: rgba(13,13,20,0.98);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 16px;
+    z-index: 99;
+    opacity: 0;
+    transform: translateY(-16px);
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  }
+
+  .mobile-menu.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  .mobile-menu a {
+    display: block;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    transition: all 0.25s ease;
+  }
+
+  .mobile-menu a:hover { background: rgba(230,92,0,0.12); color: var(--o2); }
+
+  .mobile-menu .divider { height: 1px; background: var(--line); margin: 8px 0; }
+
+  .mobile-menu .copy-ip { width: 100%; justify-content: center; margin-top: 8px; padding: 14px; font-size: 14px; }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 140px 24px 80px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse at top left, rgba(230,92,0,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(120,40,180,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at center, rgba(249,168,37,0.1) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0a12 0%, #08080d 100%);
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 30%, rgba(255,255,255,0.06) 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 200px 200px, 300px 300px, 250px 250px;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-inner { text-align: center; max-width: 960px; animation: up 1.2s cubic-bezier(0.16,1,0.3,1); }
+
+  @keyframes up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero-icon {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 28px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(230,92,0,0.4);
+    box-shadow: 0 0 60px rgba(230,92,0,0.35), 0 0 120px rgba(230,92,0,0.15);
+    background: #0d0d14;
+    animation: floatIcon 6s ease-in-out infinite;
+  }
+
+  @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  .hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(230,92,0,0.1);
+    border: 1px solid rgba(230,92,0,0.4);
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    color: var(--o3);
+  }
+
+  .tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--o2);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--o2);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
+
+  .hero h1 {
+    font-size: clamp(44px, 10vw, 112px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    margin-bottom: 24px;
+    padding-bottom: 0.06em;
+    background: linear-gradient(135deg, #fff 0%, #ff8c42 55%, #e65c00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p { font-size: clamp(16px, 2.2vw, 20px); color: var(--t2); max-width: 620px; margin: 0 auto 40px; }
+
+  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-ip {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 28px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line-accent);
+    border-radius: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--o2);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+  }
+
+  .btn-ip:hover { border-color: var(--o2); box-shadow: 0 0 40px rgba(230,92,0,0.35); transform: translateY(-3px); }
+
+  .btn-ip .dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px var(--green); animation: blink 2s infinite; flex-shrink: 0; }
+
+  .btn-ip svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .btn-ip .tip {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    padding: 7px 14px;
+    background: var(--o2);
+    color: #08080d;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .btn-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .version-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t2);
+    margin-top: 24px;
+  }
+
+  .version-pill .val { color: var(--o2); font-family: 'JetBrains Mono', monospace; }
+
+  .version-pill .dotv { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); }
+
+  .section { position: relative; padding: 110px 24px; max-width: 1280px; margin: 0 auto; z-index: 1; }
+  .narrow { max-width: 900px; }
+
+  .head { text-align: center; margin-bottom: 60px; }
+
+  .head-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--o3);
+    margin-bottom: 18px;
+    padding: 6px 16px;
+    background: rgba(230,92,0,0.08);
+    border: 1px solid rgba(230,92,0,0.2);
+    border-radius: 50px;
+  }
+
+  .section h2 {
+    font-size: clamp(30px, 5vw, 54px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    padding-bottom: 0.05em;
+  }
+
+  .section h2 em { font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .sub { color: var(--t2); font-size: 17px; max-width: 660px; margin: 0 auto; }
+
+  .text-block { display: grid; gap: 22px; }
+  .text-block p { color: var(--t2); font-size: 17px; line-height: 1.75; }
+  .text-block strong { color: var(--t1); font-weight: 700; }
+  .text-block .hl { color: var(--o2); font-weight: 600; }
+
+  .fact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+
+  .fact { padding: 22px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .fact:hover { border-color: var(--line-accent); background: var(--card-hover); transform: translateY(-3px); }
+  .fact .f-l { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--o3); margin-bottom: 8px; }
+  .fact .f-t { font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+  .fact .f-d { font-size: 14px; color: var(--t2); line-height: 1.5; }
+
+  .check-list { display: grid; gap: 14px; margin-top: 8px; }
+
+  .check {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .check:hover { border-color: var(--line-accent); background: var(--card-hover); }
+
+  .check-mark {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .check-mark svg { width: 12px; height: 12px; stroke: var(--green); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .check-txt { color: var(--t2); font-size: 15px; line-height: 1.55; }
+  .check-txt strong { color: var(--t1); font-weight: 700; }
+
+  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+
+  .p-card {
+    position: relative;
+    padding: 32px 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
+    min-height: 220px;
+  }
+
+  .p-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--o2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  .p-card:hover { transform: translateY(-5px); border-color: var(--line-accent); background: var(--card-hover); }
+  .p-card:hover::after { opacity: 1; }
+
+  .p-num {
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: 130px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    background: linear-gradient(135deg, rgba(230,92,0,0.35), rgba(249,168,37,0.08));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    transition: transform 0.4s ease;
+  }
+
+  .p-card:hover .p-num { transform: scale(1.05); }
+
+  .p-body { position: relative; z-index: 1; }
+  .p-body h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; margin-top: 60px; }
+  .p-body p { color: var(--t2); font-size: 15px; line-height: 1.65; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+
+  .s-item {
+    padding: 36px 24px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .s-item:hover { transform: translateY(-6px); border-color: var(--line-accent); background: var(--card-hover); }
+
+  .s-item .num {
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #fff, var(--o3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    padding-bottom: 0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .s-item .lbl { font-size: 13px; color: var(--t2); font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; }
+
+  .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px 40px; }
+
+  .tl-item {
+    position: relative;
+    padding: 24px 0 24px 24px;
+    border-left: 2px solid rgba(230,92,0,0.2);
+    transition: border-color 0.4s ease;
+    overflow: hidden;
+  }
+
+  .tl-item:hover { border-left-color: var(--o2); }
+
+  .tl-year {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: clamp(90px, 12vw, 140px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    background: linear-gradient(135deg, rgba(230,92,0,0.28), rgba(249,168,37,0.05));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .tl-body { position: relative; z-index: 1; }
+  .tl-body h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .tl-body p { color: var(--t2); font-size: 15px; line-height: 1.7; }
+
+  .quote {
+    padding: 56px 44px;
+    background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%);
+    border: 1px solid rgba(230,92,0,0.25);
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--o2), transparent);
+  }
+
+  .quote .q-t { font-size: clamp(19px, 2.4vw, 25px); font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; color: var(--t1); margin-bottom: 18px; font-style: italic; }
+  .quote .q-a { font-size: 13px; color: var(--o3); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .visual {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(230,92,0,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(120,40,180,0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(249,168,37,0.1) 0%, transparent 60%),
+      linear-gradient(135deg, #0d0d14 0%, #08080d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  }
+
+  .visual-inner { position: relative; z-index: 1; text-align: center; padding: 40px; }
+
+  .visual-icon-img {
+    width: 88px; height: 88px;
+    margin: 0 auto 20px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(230,92,0,0.4);
+    box-shadow: 0 0 40px rgba(230,92,0,0.25);
+    background: #0d0d14;
+  }
+
+  .visual-icon-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .visual-cap { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--o3); margin-bottom: 8px; }
+  .visual-txt { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--t1); }
+
+  .feature-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+
+  .feat {
+    position: relative;
+    padding: 32px 28px;
+    border-radius: 20px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .feat:hover { transform: translateY(-5px); border-color: var(--line-accent); box-shadow: 0 24px 70px rgba(230,92,0,0.15); }
+
+  .feat .icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: rgba(230,92,0,0.12);
+    border: 1px solid rgba(230,92,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--o2);
+    margin-bottom: 18px;
+  }
+
+  .feat .icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .feat h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .feat p { color: var(--t2); font-size: 14.5px; line-height: 1.6; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .action-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 32px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent, var(--o2)) 0%, transparent 70%);
+    opacity: 0.08;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent, var(--o2));
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 40px var(--glow, rgba(230,92,0,0.2));
+  }
+
+  .action-card:hover::before { opacity: 0.18; }
+
+  .action-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--icon-bg, rgba(230,92,0,0.12));
+    border: 1px solid var(--icon-border, rgba(230,92,0,0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent, var(--o2));
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .action-card:hover .action-icon { transform: scale(1.08) rotate(-4deg); }
+
+  .action-icon svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .action-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+  .action-body h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .action-body p { color: var(--t2); font-size: 15px; line-height: 1.5; }
+
+  .action-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent, var(--o2));
+    flex-shrink: 0;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .action-card:hover .action-arrow { background: var(--accent, var(--o2)); color: #08080d; transform: translateX(4px); }
+  .action-arrow svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .action-card.support {
+    --accent: #f9a825;
+    --glow: rgba(249,168,37,0.25);
+    --icon-bg: rgba(249,168,37,0.12);
+    --icon-border: rgba(249,168,37,0.3);
+  }
+
+  .action-card.donate {
+    --accent: #22c55e;
+    --glow: rgba(34,197,94,0.25);
+    --icon-bg: rgba(34,197,94,0.12);
+    --icon-border: rgba(34,197,94,0.3);
+  }
+
+  .socials { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+
+  .soc {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px 24px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
+  }
+
+  .soc:hover { transform: translateY(-4px); border-color: var(--soc-color); box-shadow: 0 20px 60px var(--soc-shadow); }
+
+  .soc-ico {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .soc:hover .soc-ico { transform: scale(1.08) rotate(-4deg); }
+
+  .soc-ico svg { width: 26px; height: 26px; fill: #fff; }
+
+  .soc-body { min-width: 0; position: relative; z-index: 1; }
+  .soc-name { font-size: 16px; font-weight: 800; color: var(--t1); margin-bottom: 3px; letter-spacing: -0.01em; }
+
+  .soc-handle {
+    font-size: 13px;
+    color: var(--t3);
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.3s ease;
+  }
+
+  .soc:hover .soc-handle { color: var(--soc-color); }
+
+  .soc-arrow {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--t3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .soc:hover .soc-arrow { background: var(--soc-color); color: #08080d; transform: translateX(3px); }
+  .soc-arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .soc.tiktok { --soc-color: #00f2ea; --soc-shadow: rgba(0,242,234,0.2); }
+  .soc.tiktok .soc-ico { background: linear-gradient(135deg, #00f2ea 0%, #ff0050 100%); box-shadow: 0 8px 24px rgba(255,0,80,0.3); }
+
+  .soc.discord { --soc-color: #5865F2; --soc-shadow: rgba(88,101,242,0.25); }
+  .soc.discord .soc-ico { background: #5865F2; box-shadow: 0 8px 24px rgba(88,101,242,0.35); }
+
+  .soc.youtube { --soc-color: #FF0000; --soc-shadow: rgba(255,0,0,0.25); }
+  .soc.youtube .soc-ico { background: #FF0000; box-shadow: 0 8px 24px rgba(255,0,0,0.35); }
+
+  .soc.vk { --soc-color: #0077FF; --soc-shadow: rgba(0,119,255,0.25); }
+  .soc.vk .soc-ico { background: #0077FF; box-shadow: 0 8px 24px rgba(0,119,255,0.35); }
+
+  .soc.telegram { --soc-color: #229ED9; --soc-shadow: rgba(34,158,217,0.25); }
+  .soc.telegram .soc-ico { background: #229ED9; box-shadow: 0 8px 24px rgba(34,158,217,0.35); }
+
+  .cta { position: relative; padding: 130px 24px; text-align: center; z-index: 1; overflow: hidden; }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(230,92,0,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cta-inner { position: relative; max-width: 720px; margin: 0 auto; }
+
+  .cta-icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 24px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(230,92,0,0.4);
+    box-shadow: 0 0 50px rgba(230,92,0,0.3);
+    background: #0d0d14;
+  }
+
+  .cta-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .cta h2 {
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    padding-bottom: 0.05em;
+  }
+
+  .cta h2 em { font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .cta p { color: var(--t2); font-size: 18px; margin-bottom: 36px; }
+  .cta .btn-ip { font-size: 17px; padding: 20px 32px; }
+
+  footer { position: relative; padding: 60px 24px 40px; border-top: 1px solid var(--line); text-align: center; z-index: 1; }
+
+  .f-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+
+  .f-icon { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(230,92,0,0.35); background: #0d0d14; }
+  .f-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .f-logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    padding: 3px 0;
+    background: linear-gradient(135deg, #fff, var(--o3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .f-links { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .f-links a { color: var(--t2); font-size: 14px; font-weight: 500; transition: color 0.3s ease; }
+  .f-links a:hover { color: var(--o2); }
+  .f-copy { color: var(--t3); font-size: 13px; }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1100px) {
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 13px; }
+    .copy-ip { font-size: 12px; padding: 9px 14px; }
+    .copy-ip .ip-label { display: none; }
+    .nav { padding: 18px 24px; }
+    .nav.scrolled { padding: 12px 24px; }
+  }
+
+  @media (max-width: 900px) {
+    .section { padding: 80px 20px; }
+    .head { margin-bottom: 44px; }
+    .hero { padding: 130px 20px 60px; }
+    .quote { padding: 44px 32px; }
+    .hero-icon { width: 80px; height: 80px; border-radius: 20px; }
+    .action-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 820px) {
+    .nav-links { display: none; }
+    .nav-actions .copy-ip { display: none; }
+    .burger { display: flex; }
+    .nav { padding: 14px 20px; }
+    .nav.scrolled { padding: 12px 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .section { padding: 64px 18px; }
+    .principles, .stats, .timeline, .feature-row, .fact-cards, .socials { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn-ip { justify-content: center; }
+    .cta { padding: 90px 20px; }
+    .s-item { padding: 28px 20px; }
+    .p-card { padding: 26px 22px; min-height: 200px; }
+    .p-num { font-size: 100px; }
+    .p-body h3 { margin-top: 48px; }
+    .tl-item { padding-left: 18px; }
+    .visual { aspect-ratio: 4 / 3; }
+    .nav-logo { font-size: 16px; }
+    .nav-icon { width: 30px; height: 30px; border-radius: 8px; }
+    .hero-icon { width: 72px; height: 72px; border-radius: 18px; }
+    .quote { padding: 36px 24px; }
+    .action-card { padding: 24px 22px; gap: 16px; }
+    .action-icon { width: 54px; height: 54px; border-radius: 14px; }
+    .action-icon svg { width: 26px; height: 26px; }
+    .action-body h3 { font-size: 19px; }
+    .action-arrow { display: none; }
+    .soc { padding: 20px 20px; gap: 14px; }
+    .soc-ico { width: 46px; height: 46px; border-radius: 14px; }
+    .soc-ico svg { width: 22px; height: 22px; }
+    .soc-arrow { display: none; }
+  }
+
+  @media (min-width: 1500px) { .section { max-width: 1400px; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand">
+    <div class="nav-icon">
+      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+    </div>
+    <div class="nav-logo">AnarchyOrigin</div>
+  </div>
+  <div class="nav-links">
+    <a href="https://anarchyorigin.com">Главная</a>
+    <a href="https://media.anarchyorigin.com">Блогерам</a>
+    <a href="https://news.anarchyorigin.com">Новости</a>
+    <a href="https://anarchyorigin.com/support">Поддержка</a>
+  </div>
+  <div class="nav-actions">
+    <button class="copy-ip" data-ip="mc.anarchyorigin.com">
+      <span class="ip-label">IP:</span>
+      <span>mc.anarchyorigin.com</span>
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span class="tip">IP скопирован</span>
+    </button>
+    <button class="burger" id="burger" aria-label="Меню">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="https://anarchyorigin.com">Главная</a>
+  <a href="https://media.anarchyorigin.com">Блогерам</a>
+  <a href="https://news.anarchyorigin.com">Новости</a>
+  <a href="https://anarchyorigin.com/support">Поддержка</a>
+  <a href="https://anarchyorigin.com/rules">Правила</a>
+  <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
+  <div class="divider"></div>
+  <button class="copy-ip" data-ip="mc.anarchyorigin.com">
+    <span>Скопировать IP</span>
+    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    <span class="tip">IP скопирован</span>
+  </button>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-icon">
+      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+    </div>
+    <div class="tag">О сервере</div>
+    <h1>AnarchyOrigin</h1>
+    <p>Анархия, в которой прогресс не сбрасывают. Мир, который растёт. Экономика, которая работает. Свобода без компромиссов.</p>
+    <div class="hero-actions">
+      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
+        <span class="dot"></span>
+        <span>Скопировать IP</span>
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span class="tip">IP скопирован</span>
+      </button>
+    </div>
+    <div class="version-pill">
+      <span class="dotv"></span>
+      Поддерживаемые версии: <span class="val">1.21.11 — последняя</span>
+    </div>
+  </div>
+</section>
+
+<section class="section narrow">
+  <div class="text-block reveal">
+    <p><strong>AnarchyOrigin</strong> — Minecraft-сервер в жанре анархии, построенный на принципе <span class="hl">постоянства мира</span>.</p>
+    <p>Здесь нет вайпов, нет искусственных ограничений и нет разделения на «доступное» и «недоступное».</p>
+    <p>Всё, что ты построил, остаётся с тобой навсегда.</p>
+
+    <div class="fact-cards">
+      <div class="fact">
+        <div class="f-l">Основа</div>
+        <div class="f-t">Постоянство</div>
+        <div class="f-d">Мир живёт непрерывно с момента запуска</div>
+      </div>
+      <div class="fact">
+        <div class="f-l">Подход</div>
+        <div class="f-t">Минимум правил</div>
+        <div class="f-d">Свобода действий — базовая ценность</div>
+      </div>
+      <div class="fact">
+        <div class="f-l">Цель</div>
+        <div class="f-t">Долгосрочность</div>
+        <div class="f-d">Сервер создан не на сезон, а на годы</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Подход</div>
+    <h2>Свобода, <em>подкреплённая стабильностью</em></h2>
+    <p class="sub">Почему AnarchyOrigin отличается от типичных анархий</p>
+  </div>
+
+  <div class="text-block reveal" style="margin-bottom: 32px;">
+    <p>Мы запустили проект как альтернативу серверам, где прогресс сгорает каждые несколько месяцев.</p>
+    <p>Наша цель — долгоживущий мир, в котором каждая база, каждый клан и каждая история имеют вес.</p>
+  </div>
+
+  <div class="check-list reveal">
+    <div class="check">
+      <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="check-txt"><strong>Мы не навязываем правила поведения.</strong> Рейды, войны и обман — часть анархии, и мы это уважаем.</div>
+    </div>
+    <div class="check">
+      <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="check-txt"><strong>Мы обеспечиваем техническую честность.</strong> Защита от читов, эксплойтов и сбоев инфраструктуры — наша зона ответственности.</div>
+    </div>
+    <div class="check">
+      <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="check-txt"><strong>Мы держим стабильность.</strong> Аптайм 99,8%, TPS 20.0, выделенное железо и регулярные бэкапы.</div>
+    </div>
+    <div class="check">
+      <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="check-txt"><strong>Мы не сбрасываем мир.</strong> Твой прогресс не исчезнет ни через месяц, ни через год.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Концепция</div>
+    <h2>Наши <em>принципы</em></h2>
+    <p class="sub">Правила, по которым живёт AnarchyOrigin</p>
+  </div>
+  <div class="principles">
+    <div class="p-card reveal">
+      <div class="p-num">01</div>
+      <div class="p-body">
+        <h3>Без вайпов</h3>
+        <p>Мир существует непрерывно с момента запуска. Прогресс, постройки и ресурсы не сбросят ни через месяц, ни через год.</p>
+      </div>
+    </div>
+    <div class="p-card reveal">
+      <div class="p-num">02</div>
+      <div class="p-body">
+        <h3>Растущий мир</h3>
+        <p>Границы расширяются по мере развития сообщества. Свежие территории доступны тем, кто хочет начать с нуля.</p>
+      </div>
+    </div>
+    <div class="p-card reveal">
+      <div class="p-num">03</div>
+      <div class="p-body">
+        <h3>Настоящая экономика</h3>
+        <p>Налоги, аукцион, магазины и торговля между игроками. Экономика — не декорация, а живая система.</p>
+      </div>
+    </div>
+    <div class="p-card reveal">
+      <div class="p-num">04</div>
+      <div class="p-body">
+        <h3>Свобода без хаоса</h3>
+        <p>Мы не запрещаем рейды, войны и обман. Но читы, эксплойты и баги остаются вне игры.</p>
+      </div>
+    </div>
+    <div class="p-card reveal">
+      <div class="p-num">05</div>
+      <div class="p-body">
+        <h3>Минимум правил</h3>
+        <p>Свобода действий — это основа. Вмешательство происходит только там, где речь о безопасности сервера.</p>
+      </div>
+    </div>
+    <div class="p-card reveal">
+      <div class="p-num">06</div>
+      <div class="p-body">
+        <h3>Долгосрочный проект</h3>
+        <p>Сервер создан не на сезон, а на годы. Мы вкладываемся в стабильность и планируем развитие на перспективу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Стабильность</div>
+    <h2>Цифры, которые <em>имеют значение</em></h2>
+    <p class="sub">Техническое состояние сервера</p>
+  </div>
+  <div class="stats">
+    <div class="s-item reveal">
+      <div class="num" data-count="99.8" data-decimals="1" data-suffix="%">0</div>
+      <div class="lbl">Аптайм</div>
+    </div>
+    <div class="s-item reveal">
+      <div class="num" data-count="20" data-decimals="1">0</div>
+      <div class="lbl">Стабильный TPS</div>
+    </div>
+    <div class="s-item reveal">
+      <div class="num" data-count="24" data-suffix="/7">0</div>
+      <div class="lbl">Онлайн</div>
+    </div>
+    <div class="s-item reveal">
+      <div class="num" data-count="70" data-suffix="">0</div>
+      <div class="lbl">Слотов</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Внутри игры</div>
+    <h2>Что тебя <em>ждёт</em></h2>
+    <p class="sub">Ключевые механики и возможности</p>
+  </div>
+  <div class="feature-row">
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Приваты</h3>
+      <p>Защити базу надёжной системой приватов. Алмазные, изумрудные и другие блоки защиты.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
+      </div>
+      <h3>Кланы и войны</h3>
+      <p>Объединяйся, захватывай территории, воюй с другими кланами и правь на сервере.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <h3>Ивенты каждый час</h3>
+      <p>Мистические сундуки ежечасно, Легендарные — ежедневно в 18:30 МСК. Аирдропы и конкурсы.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <h3>Экономика</h3>
+      <p>Налоги, аукцион, магазины и торговля между игроками. Живая система, а не декорация.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Честная игра</h3>
+      <p>Мощная система защиты от читеров и эксплойтов. Только твои навыки и стратегия.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </div>
+      <h3>Голосовой чат</h3>
+      <p>Общайся с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section narrow">
+  <div class="visual reveal">
+    <div class="visual-inner">
+      <div class="visual-icon-img">
+        <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+      </div>
+      <div class="visual-cap">Один сервер</div>
+      <div class="visual-txt">Одна история. Без сбросов.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Сервисы</div>
+    <h2>Поддержка <em>и донат</em></h2>
+    <p class="sub">Помощь игрокам и покупка привилегий — по этим ссылкам</p>
+  </div>
+  <div class="action-grid">
+    <a href="https://anarchyorigin.com/support" class="action-card support reveal" target="_blank" rel="noopener">
+      <div class="action-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><line x1="5.6" y1="5.6" x2="9.5" y2="9.5"/><line x1="14.5" y1="9.5" x2="18.4" y2="5.6"/><line x1="14.5" y1="14.5" x2="18.4" y2="18.4"/><line x1="5.6" y1="18.4" x2="9.5" y2="14.5"/></svg>
+      </div>
+      <div class="action-body">
+        <h3>Поддержка</h3>
+        <p>Баги, жалобы, вопросы по аккаунту и разблокировке</p>
+      </div>
+      <div class="action-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+    <a href="https://anarchyorigin.com" class="action-card donate reveal" target="_blank" rel="noopener">
+      <div class="action-icon">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="19" cy="20" r="1.4"/><path d="M2 3h3l2.7 13.3a2 2 0 002 1.7h9.7a2 2 0 002-1.7L23 6H6"/></svg>
+      </div>
+      <div class="action-body">
+        <h3>Донат</h3>
+        <p>Привилегии, кейсы и внутриигровые бонусы на официальном сайте</p>
+      </div>
+      <div class="action-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Актуальное</div>
+    <h2>Новости <em>сервера</em></h2>
+    <p class="sub">Обновления, ивенты и важные объявления</p>
+  </div>
+  <a href="https://news.anarchyorigin.com" class="action-card reveal" style="background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%); border-color: rgba(230,92,0,0.25); --accent: var(--o2); --glow: rgba(230,92,0,0.18);">
+    <div class="action-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+    </div>
+    <div class="action-body">
+      <h3>Перейти к новостям</h3>
+      <p>Все обновления, анонсы ивентов и технические работы — на отдельной странице</p>
+    </div>
+    <div class="action-arrow">
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+  </a>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Соцсети</div>
+    <h2>Мы <em>на связи</em></h2>
+    <p class="sub">Подписывайся, чтобы не пропустить новости и ивенты</p>
+  </div>
+  <div class="socials">
+    <a href="https://tiktok.com/@anarchyorigin" class="soc tiktok reveal" target="_blank" rel="noopener">
+      <div class="soc-ico">
+        <svg viewBox="0 0 24 24"><path d="M12.53 2h3.03c.1 1.9 1.36 3.5 3.44 4.1v3.03a6.86 6.86 0 0 1-3.44-1.08v7.09a5.94 5.94 0 1 1-5.94-5.94c.3 0 .59.03.87.08v3.1a2.9 2.9 0 1 0 2.04 2.76V2z"/></svg>
+      </div>
+      <div class="soc-body">
+        <div class="soc-name">TikTok</div>
+        <div class="soc-handle">@anarchyorigin</div>
+      </div>
+      <div class="soc-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+    <a href="https://url.anarchyorigin.com/discord" class="soc discord reveal" target="_blank" rel="noopener">
+      <div class="soc-ico">
+        <svg viewBox="0 0 24 24"><path d="M20.32 4.37a19.79 19.79 0 00-4.88-1.52.07.07 0 00-.08.04 13.79 13.79 0 00-.61 1.25 18.27 18.27 0 00-5.5 0 12.63 12.63 0 00-.62-1.25.08.08 0 00-.08-.04 19.74 19.74 0 00-4.88 1.52.07.07 0 00-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 00.03.06 19.9 19.9 0 006 3.03.08.08 0 00.08-.03 14.23 14.23 0 001.23-2 .08.08 0 00-.04-.11 13.12 13.12 0 01-1.87-.9.08.08 0 01-.01-.13c.13-.09.25-.19.37-.29a.07.07 0 01.08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 01.08.01c.12.1.25.2.37.29a.08.08 0 01-.01.13 12.32 12.32 0 01-1.87.9.08.08 0 00-.04.11 15.99 15.99 0 001.23 2 .08.08 0 00.08.03 19.84 19.84 0 006-3.03.08.08 0 00.03-.06c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 00-.03-.03zM8.02 15.33c-1.18 0-2.16-1.09-2.16-2.42s.95-2.42 2.16-2.42c1.21 0 2.18 1.1 2.16 2.42 0 1.33-.95 2.42-2.16 2.42zm7.97 0c-1.18 0-2.16-1.09-2.16-2.42s.95-2.42 2.16-2.42c1.21 0 2.18 1.1 2.16 2.42 0 1.33-.95 2.42-2.16 2.42z"/></svg>
+      </div>
+      <div class="soc-body">
+        <div class="soc-name">Discord</div>
+        <div class="soc-handle">url.anarchyorigin.com/discord</div>
+      </div>
+      <div class="soc-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+    <a href="https://youtube.com/@anarchyorigin" class="soc youtube reveal" target="_blank" rel="noopener">
+      <div class="soc-ico">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1 31.3 31.3 0 00.5-5.8 31.3 31.3 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>
+      </div>
+      <div class="soc-body">
+        <div class="soc-name">YouTube</div>
+        <div class="soc-handle">@anarchyorigin</div>
+      </div>
+      <div class="soc-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+    <a href="https://vk.com/anarchyorigin" class="soc vk reveal" target="_blank" rel="noopener">
+      <div class="soc-ico">
+        <svg viewBox="0 0 24 24"><path d="M13.16 17.58c-6.13 0-9.63-4.2-9.77-11.19h3.07c.1 5.13 2.36 7.3 4.15 7.75V6.39h2.89v4.43c1.77-.19 3.62-2.2 4.25-4.43h2.89a8.55 8.55 0 01-3.93 5.6 8.85 8.85 0 014.29 5.59h-3.18a5.51 5.51 0 00-4.32-4v4z"/></svg>
+      </div>
+      <div class="soc-body">
+        <div class="soc-name">VK</div>
+        <div class="soc-handle">vk.com/anarchyorigin</div>
+      </div>
+      <div class="soc-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+    <a href="https://t.me/anarchyorigin" class="soc telegram reveal" target="_blank" rel="noopener">
+      <div class="soc-ico">
+        <svg viewBox="0 0 24 24"><path d="M9.04 15.47l-.38 5.32c.55 0 .79-.24 1.08-.52l2.6-2.48 5.39 3.94c.99.55 1.7.26 1.97-.91l3.57-16.7h.001c.32-1.47-.53-2.05-1.49-1.69L1.64 10.38c-1.42.55-1.4 1.34-.24 1.7l4.97 1.55L17.9 6.9c.54-.36 1.04-.16.63.2z"/></svg>
+      </div>
+      <div class="soc-body">
+        <div class="soc-name">Telegram</div>
+        <div class="soc-handle">t.me/anarchyorigin</div>
+      </div>
+      <div class="soc-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Хронология</div>
+    <h2>Как мы <em>развивались</em></h2>
+    <p class="sub">Ключевые этапы проекта</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-year">2025</div>
+      <div class="tl-body">
+        <h3>Запуск сервера</h3>
+        <p>Открытие AnarchyOrigin с базовой инфраструктурой: авторизация, защита от читеров, простые приваты.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2025</div>
+      <div class="tl-body">
+        <h3>Расширение границ</h3>
+        <p>Первое расширение мира для новых игроков. Начало работы налоговой системы и аукциона.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2025</div>
+      <div class="tl-body">
+        <h3>Внедрение ивентов</h3>
+        <p>Ежечасные Мистические сундуки и ежедневный Легендарный сундук. Аирдропы и конкурсы.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2025</div>
+      <div class="tl-body">
+        <h3>Голосовой чат и кланы</h3>
+        <p>Поддержка голосового общения в реальном времени и расширенная система кланов.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2026</div>
+      <div class="tl-body">
+        <h3>Оптимизация</h3>
+        <p>Переработка инфраструктуры под высокую нагрузку. Достигнут стабильный TPS 20.0 и аптайм 99,8%.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2026</div>
+      <div class="tl-body">
+        <h3>Работа с сообществом</h3>
+        <p>Запуск программы для блогеров и стримеров. Расширение медиа-раздела и поддержка авторов контента.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section narrow">
+  <div class="quote reveal">
+    <div class="q-t">«AnarchyOrigin — это не просто сервер. Это место, где твоя история продолжается столько, сколько ты сам захочешь.»</div>
+    <div class="q-a">— AnarchyOrigin</div>
+  </div>
+</section>
+
+<section class="section narrow">
+  <div class="text-block reveal">
+    <h2 style="text-align:center; margin-bottom: 32px; font-size: clamp(28px,4vw,44px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; padding-bottom: 0.05em;">Что <em style="font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">дальше</em></h2>
+    <p>Мы не планируем останавливаться.</p>
+    <p>В ближайших планах — расширение игровых механик, углубление системы кланов, новые типы ивентов и улучшение инфраструктуры.</p>
+    <p>Всё это — без компромиссов по стабильности и без вайпов.</p>
+
+    <div class="fact-cards">
+      <div class="fact">
+        <div class="f-l">Механики</div>
+        <div class="f-t">Расширение</div>
+        <div class="f-d">Новые игровые системы и углубление существующих</div>
+      </div>
+      <div class="fact">
+        <div class="f-l">Кланы</div>
+        <div class="f-t">Углубление</div>
+        <div class="f-d">Больше возможностей для коллективной игры</div>
+      </div>
+      <div class="fact">
+        <div class="f-l">Ивенты</div>
+        <div class="f-t">Разнообразие</div>
+        <div class="f-d">Новые типы событий и награды</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 8px;">Если ты ищешь сервер, где можно <strong>строить долгосрочные планы</strong> и не бояться, что однажды всё исчезнет — AnarchyOrigin для тебя.</p>
+    <p>Мы здесь надолго.</p>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-inner reveal">
+    <div class="cta-icon">
+      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+    </div>
+    <h2>Готов <em>начать?</em></h2>
+    <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
+    <button class="btn-ip" data-ip="mc.anarchyorigin.com">
+      <span class="dot"></span>
+      <span>Скопировать IP</span>
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span class="tip">IP скопирован</span>
+    </button>
+    <div class="version-pill" style="margin-top: 28px;">
+      <span class="dotv"></span>
+      Поддерживаемые версии: <span class="val">1.21.11 — последняя</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">
+    <div class="f-icon">
+      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+    </div>
+    <div class="f-logo">AnarchyOrigin</div>
+  </div>
+  <div class="f-links">
+    <a href="https://anarchyorigin.com">Главная</a>
+    <a href="https://media.anarchyorigin.com">Блогерам</a>
+    <a href="https://news.anarchyorigin.com">Новости</a>
+    <a href="https://anarchyorigin.com/support">Поддержка</a>
+    <a href="https://anarchyorigin.com/rules">Правила</a>
+    <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
+  </div>
+  <div class="f-copy">© 2026 AnarchyOrigin. Все права защищены.</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !burger.contains(e.target)) {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 80 + 'ms';
+    io.observe(el);
+  });
+
+  function runCount(el) {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimals || 0);
+    const suffix = el.dataset.suffix || '';
+    const time = 2000;
+    const start = performance.now();
+
+    (function step(now) {
+      const p = Math.min((now - start) / time, 1);
+      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+      el.textContent = (target * eased).toFixed(decimals) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        runCount(entry.target);
+        statIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.num[data-count]').forEach(el => statIO.observe(el));
+
+  async function copyIp(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  document.querySelectorAll('[data-ip]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ok = await copyIp(btn.dataset.ip);
+      if (!ok) return;
+      btn.classList.add('done');
+      setTimeout(() => btn.classList.remove('done'), 1800);
+    });
+  });
+</script>
+
+</body>
+</html>
