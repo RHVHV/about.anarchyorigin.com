@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.mcsrvstat.us">
-<link rel="preconnect" href="https://worldtimeapi.org">
+<link rel="preconnect" href="https://timeapi.io">
 <link rel="dns-prefetch" href="https://github.com">
 <link rel="dns-prefetch" href="https://static.vecteezy.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -1727,7 +1727,7 @@
     <div class="howto-step reveal">
       <div class="howto-num">01</div>
       <h3>Запусти Minecraft</h3>
-      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее. Подойдёт любой лаунчер.</p>
+      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее. Подойдёт любая лицензия или другая версия.</p>
     </div>
     <div class="howto-step reveal">
       <div class="howto-num">02</div>
@@ -2230,10 +2230,10 @@
       statIO.observe(el);
     }
 
-    fetchWithTimeout('https://worldtimeapi.org/api/timezone/Europe/Moscow', 8000)
+    fetchWithTimeout('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', 8000)
       .then(r => r.json())
       .then(data => {
-        const dt = new Date(data.datetime);
+        const dt = new Date(data.dateTime);
         setMonths(dt.getFullYear(), dt.getMonth());
       })
       .catch(() => {
@@ -2246,10 +2246,10 @@
     const yearEl = document.getElementById('currentYear');
     if (!yearEl) return;
 
-    fetchWithTimeout('https://worldtimeapi.org/api/timezone/Europe/Moscow', 8000)
+    fetchWithTimeout('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', 8000)
       .then(r => r.json())
       .then(data => {
-        const dt = new Date(data.datetime);
+        const dt = new Date(data.dateTime);
         yearEl.textContent = dt.getFullYear();
       })
       .catch(() => {
