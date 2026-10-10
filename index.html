@@ -175,7 +175,7 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .nav-links { display: flex; gap: 28px; align-items: center; margin-left: auto; margin-right: auto; }
+  .nav-links { display: flex; gap: 26px; align-items: center; margin-left: auto; margin-right: auto; }
 
   .nav-links a {
     font-size: 14px;
@@ -461,6 +461,8 @@
 
   .section { position: relative; padding: 110px 24px; max-width: 1280px; margin: 0 auto; z-index: 1; }
   .narrow { max-width: 900px; }
+
+  #how-to-connect { scroll-margin-top: 90px; }
 
   .head { text-align: center; margin-bottom: 60px; }
 
@@ -1380,12 +1382,20 @@
   .contact-btn.email { --acc: #f9a825; --acc-bg: rgba(249,168,37,0.12); --acc-border: rgba(249,168,37,0.3); --acc-shadow: rgba(249,168,37,0.2); }
 
   @media (max-width: 1100px) {
-    .nav-links { gap: 20px; }
+    .nav-links { gap: 18px; }
     .nav-links a { font-size: 13px; }
     .copy-ip { font-size: 12px; padding: 9px 14px; }
     .copy-ip .ip-label { display: none; }
     .nav { padding: 18px 24px; }
     .nav.scrolled { padding: 12px 24px; }
+  }
+
+  @media (max-width: 950px) {
+    .nav-links { display: none; }
+    .nav-actions .copy-ip { display: none; }
+    .burger { display: flex; }
+    .nav { padding: 14px 20px; }
+    .nav.scrolled { padding: 12px 20px; }
   }
 
   @media (max-width: 900px) {
@@ -1395,14 +1405,6 @@
     .quote { padding: 44px 32px; }
     .hero-icon { width: 80px; height: 80px; border-radius: 20px; }
     .action-grid { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 820px) {
-    .nav-links { display: none; }
-    .nav-actions .copy-ip { display: none; }
-    .burger { display: flex; }
-    .nav { padding: 14px 20px; }
-    .nav.scrolled { padding: 12px 20px; }
   }
 
   @media (max-width: 600px) {
@@ -1464,6 +1466,7 @@
     <a href="https://anarchyorigin.com">Главная</a>
     <a href="https://media.anarchyorigin.com">Блогерам</a>
     <a href="https://news.anarchyorigin.com">Новости</a>
+    <a data-scroll="how-to-connect">Как зайти</a>
     <a data-modal="support">Поддержка</a>
   </div>
   <div class="nav-actions">
@@ -1485,6 +1488,7 @@
   <a href="https://anarchyorigin.com">Главная</a>
   <a href="https://media.anarchyorigin.com">Блогерам</a>
   <a href="https://news.anarchyorigin.com">Новости</a>
+  <a data-scroll="how-to-connect">Как зайти</a>
   <a data-modal="support">Поддержка</a>
   <a href="https://anarchyorigin.com/rules">Правила</a>
   <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
@@ -1713,7 +1717,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="how-to-connect">
   <div class="head reveal">
     <div class="head-label">Инструкция</div>
     <h2>Как зайти <em>на сервер</em></h2>
@@ -2003,9 +2007,9 @@
     <a href="https://anarchyorigin.com">Главная</a>
     <a href="https://media.anarchyorigin.com">Блогерам</a>
     <a href="https://news.anarchyorigin.com">Новости</a>
+    <a data-scroll="how-to-connect">Как зайти</a>
     <a data-modal="support">Поддержка</a>
     <a href="https://anarchyorigin.com/rules">Правила</a>
-    <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
   </div>
   <div class="f-copy">© <span id="currentYear">2026</span> AnarchyOrigin. Все права защищены.</div>
 </footer>
@@ -2151,7 +2155,7 @@
 
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      if (!link.dataset.modal) {
+      if (!link.dataset.modal && !link.dataset.scroll) {
         burger.classList.remove('open');
         mobileMenu.classList.remove('open');
       }
@@ -2366,20 +2370,51 @@
       }
     });
 
+    window.__closeModalSupport = closeModal;
+    window.__openModalSupport = openModal;
+  })();
+
+  (function() {
+    const targetId = 'how-to-connect';
+
+    function scrollToTarget() {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.querySelectorAll('[data-scroll="' + targetId + '"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (window.location.hash !== '#' + targetId) {
+          history.pushState(null, '', '#' + targetId);
+        }
+        scrollToTarget();
+        burger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
     function applyHash() {
       const hash = window.location.hash.replace('#', '');
+
       if (hash === 'support') {
-        modalSupport.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        if (window.__openModalSupport) window.__openModalSupport();
       } else {
-        modalSupport.classList.remove('open');
-        document.body.style.overflow = '';
+        if (window.__closeModalSupport) window.__closeModalSupport();
+
+        if (hash === targetId) {
+          setTimeout(scrollToTarget, 120);
+        }
       }
     }
 
     window.addEventListener('hashchange', applyHash);
     window.addEventListener('popstate', applyHash);
-    applyHash();
+
+    if (window.location.hash.replace('#', '') === targetId) {
+      setTimeout(scrollToTarget, 250);
+    }
   })();
 </script>
 
