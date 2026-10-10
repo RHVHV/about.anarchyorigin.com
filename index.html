@@ -34,6 +34,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.mcsrvstat.us">
+<link rel="preconnect" href="https://worldtime.timezone.io">
 <link rel="dns-prefetch" href="https://github.com">
 <link rel="dns-prefetch" href="https://static.vecteezy.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -1150,7 +1151,7 @@
     </div>
     <div class="version-pill">
       <span class="dotv"></span>
-      Поддерживаемые версии: <span class="val">1.21.11 — последняя</span>
+      Поддерживаемые версии: <span class="val" id="versionVal">1.21.11 — последняя</span>
     </div>
   </div>
 </section>
@@ -1272,7 +1273,7 @@
     <p class="sub">Техническое состояние сервера</p>
   </div>
   <div class="stats">
-    <div class="s-item live-stat reveal">
+    <div class="s-item live-stat reveal" id="onlineCard">
       <div class="num live-num" id="playersOnline">—</div>
       <div class="live-lbl"><span class="live-dot"></span>Игроков онлайн</div>
     </div>
@@ -1587,7 +1588,7 @@
     </button>
     <div class="version-pill" style="margin-top: 28px;">
       <span class="dotv"></span>
-      Поддерживаемые версии: <span class="val">1.21.11 — последняя</span>
+      Поддерживаемые версии: <span class="val" id="versionValCta">1.21.11 — последняя</span>
     </div>
   </div>
 </section>
@@ -1738,30 +1739,37 @@
     const startYear = 2026;
     const startMonth = 0;
 
-    let currentYear, currentMonth;
-
-    try {
-      const parts = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Europe/Moscow',
-        year: 'numeric',
-        month: 'numeric'
-      }).formatToParts(new Date());
-
-      const map = {};
-      parts.forEach(p => { map[p.type] = p.value; });
-
-      currentYear = parseInt(map.year, 10);
-      currentMonth = parseInt(map.month, 10) - 1;
-    } catch (e) {
-      const now = new Date();
-      currentYear = now.getFullYear();
-      currentMonth = now.getMonth();
+    function setMonths(currentYear, currentMonth) {
+      const months = Math.max(0, (currentYear - startYear) * 12 + (currentMonth - startMonth));
+      el.dataset.count = months;
+      statIO.observe(el);
     }
 
-    const months = Math.max(0, (currentYear - startYear) * 12 + (currentMonth - startMonth));
+    fetch('https://worldtime.timezone.io/api/timezone/Europe/Moscow')
+      .then(r => r.json())
+      .then(data => {
+        const dt = new Date(data.datetime);
+        setMonths(dt.getFullYear(), dt.getMonth());
+      })
+      .catch(() => {
+        const now = new Date();
+        setMonths(now.getFullYear(), now.getMonth());
+      });
+  })();
 
-    el.dataset.count = months;
-    statIO.observe(el);
+  (function() {
+    const yearEl = document.getElementById('currentYear');
+    if (!yearEl) return;
+
+    fetch('https://worldtime.timezone.io/api/timezone/Europe/Moscow')
+      .then(r => r.json())
+      .then(data => {
+        const dt = new Date(data.datetime);
+        yearEl.textContent = dt.getFullYear();
+      })
+      .catch(() => {
+        yearEl.textContent = new Date().getFullYear();
+      });
   })();
 
   async function copyIp(text) {
@@ -1793,36 +1801,52 @@
   (function() {
     const serverIp = 'mc.anarchyorigin.com';
     const apiUrl = 'https://api.mcsrvstat.us/3/' + serverIp;
-    const el = document.getElementById('playersOnline');
-    if (!el) return;
+    const onlineCard = document.getElementById('onlineCard');
+    const playersEl = document.getElementById('playersOnline');
+    const versionEls = [document.getElementById('versionVal'), document.getElementById('versionValCta')];
+    if (!onlineCard || !playersEl) return;
+
+    function removeOnlineCard() {
+      onlineCard.remove();
+    }
+
+    function updateVersion(version) {
+      if (!version) return;
+      versionEls.forEach(el => {
+        if (el) el.textContent = version;
+      });
+    }
 
     function fetchOnline() {
       fetch(apiUrl)
         .then(r => r.json())
         .then(data => {
-          if (data && data.online && data.players) {
-            el.textContent = data.players.online;
-          } else {
-            el.textContent = '0';
+          if (!data || !data.online) {
+            removeOnlineCard();
+            return;
           }
-          el.classList.remove('updated');
-          void el.offsetWidth;
-          el.classList.add('updated');
+
+          if (data.players && typeof data.players.online === 'number') {
+            playersEl.textContent = data.players.online;
+          } else {
+            playersEl.textContent = '0';
+          }
+
+          if (data.version) {
+            updateVersion(data.version);
+          }
+
+          playersEl.classList.remove('updated');
+          void playersEl.offsetWidth;
+          playersEl.classList.add('updated');
         })
         .catch(() => {
-          el.textContent = '—';
+          removeOnlineCard();
         });
     }
 
     fetchOnline();
     setInterval(fetchOnline, 60000);
-  })();
-
-  (function() {
-    const yearEl = document.getElementById('currentYear');
-    if (yearEl) {
-      yearEl.textContent = new Date().getFullYear();
-    }
   })();
 </script>
 
