@@ -449,60 +449,74 @@
   .btn-ip {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 11px;
-    padding: 17px 28px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-    border: 1px solid var(--line-accent);
+    padding: 17px 30px;
+    background: linear-gradient(135deg, var(--o1) 0%, var(--o2) 100%);
+    background-size: 220% 220%;
+    border: none;
     border-radius: 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 15px;
-    font-weight: 600;
-    color: var(--o2);
+    font-weight: 700;
+    color: #08080d;
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     position: relative;
     overflow: hidden;
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 6px 24px rgba(230,92,0,0.08);
+    box-shadow: 0 8px 26px rgba(230,92,0,0.35);
+    animation: gradientShift 6s ease infinite;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-ip.secondary {
+    background: linear-gradient(135deg, #f9a825 0%, #ff8c42 55%, #e65c00 100%);
+    background-size: 220% 220%;
+    animation: gradientShift 8s ease infinite reverse;
+    color: #08080d;
+    box-shadow: 0 8px 26px rgba(249,168,37,0.35);
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .btn-ip::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(230,92,0,0.22) 0%, rgba(249,168,37,0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-
-  .btn-ip::after {
-    content: '';
-    position: absolute;
     top: 0; left: -120%;
     width: 60%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
     transform: skewX(-20deg);
-    transition: left 0.7s cubic-bezier(0.16,1,0.3,1);
+    transition: left 0.8s cubic-bezier(0.16,1,0.3,1);
     pointer-events: none;
   }
 
   .btn-ip:hover {
-    border-color: var(--o2);
-    color: #fff;
     transform: translateY(-3px);
-    box-shadow: 0 16px 44px rgba(230,92,0,0.35), 0 0 0 1px rgba(249,168,37,0.25);
+    box-shadow: 0 18px 46px rgba(230,92,0,0.55), 0 0 0 1px rgba(255,255,255,0.12);
+    color: #08080d;
   }
 
-  .btn-ip:hover::before { opacity: 1; }
-  .btn-ip:hover::after { left: 130%; }
+  .btn-ip.secondary:hover {
+    box-shadow: 0 18px 46px rgba(249,168,37,0.55), 0 0 0 1px rgba(255,255,255,0.12);
+  }
+
+  .btn-ip:hover::before { left: 130%; }
+
+  .btn-ip:active {
+    transform: translateY(-1px);
+  }
 
   .btn-ip .dot {
     width: 10px; height: 10px;
-    background: var(--green);
+    background: #08080d;
     border-radius: 50%;
-    box-shadow: 0 0 12px var(--green);
+    box-shadow: 0 0 10px rgba(8,8,13,0.5);
     animation: blink 2s infinite;
     flex-shrink: 0;
     position: relative;
@@ -512,7 +526,7 @@
   .btn-ip svg {
     width: 18px; height: 18px;
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 2.4;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -521,7 +535,9 @@
     transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
   }
 
-  .btn-ip:hover svg { transform: translateY(2px); }
+  .btn-ip:hover svg { transform: translateX(3px); }
+
+  .btn-ip .dot + span + svg { transform: none; }
 
   .btn-ip span {
     position: relative;
@@ -534,7 +550,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(-6px);
     padding: 7px 14px;
-    background: var(--o2);
+    background: var(--t1);
     color: #08080d;
     font-size: 12px;
     font-weight: 700;
@@ -548,18 +564,6 @@
   }
 
   .btn-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  .btn-ip.accent {
-    background: linear-gradient(135deg, rgba(230,92,0,0.14) 0%, rgba(249,168,37,0.06) 100%);
-    border-color: rgba(230,92,0,0.55);
-    color: var(--o3);
-    box-shadow: 0 8px 28px rgba(230,92,0,0.18);
-  }
-
-  .btn-ip.accent:hover {
-    color: #fff;
-    box-shadow: 0 20px 50px rgba(230,92,0,0.45), 0 0 0 1px rgba(249,168,37,0.4);
-  }
 
   .version-pill {
     display: inline-flex;
@@ -1243,7 +1247,7 @@
 
   .cta h2 em { font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .cta p { color: var(--t2); font-size: 18px; margin-bottom: 36px; }
-  .cta .btn-ip { font-size: 16px; padding: 18px 30px; }
+  .cta .btn-ip { font-size: 16px; padding: 18px 32px; }
 
   footer { position: relative; padding: 60px 24px 40px; border-top: 1px solid var(--line); text-align: center; z-index: 1; }
 
@@ -1532,7 +1536,7 @@
     .section { padding: 64px 18px; }
     .principles, .stats, .timeline, .feature-row, .fact-cards, .socials, .howto { grid-template-columns: 1fr; }
     .hero-actions { flex-direction: column; align-items: stretch; }
-    .btn-ip { justify-content: center; }
+    .btn-ip { justify-content: center; width: 100%; }
     .cta { padding: 90px 20px; }
     .s-item { padding: 28px 20px; }
     .p-card { padding: 26px 22px; min-height: 200px; }
@@ -1564,7 +1568,7 @@
     .howto-step { padding: 26px 22px 22px; }
     .howto-num { width: 40px; height: 40px; font-size: 14px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
-    .btn-ip { padding: 15px 22px; font-size: 14px; }
+    .btn-ip { padding: 15px 24px; font-size: 14px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
@@ -1638,7 +1642,7 @@
     <h1>AnarchyOrigin</h1>
     <p>Анархия, в которой прогресс не сбрасывают. Мир, который растёт. Экономика, которая работает. Свобода без компромиссов.</p>
     <div class="hero-actions">
-      <button class="btn-ip accent" data-ip="mc.anarchyorigin.com">
+      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -1854,7 +1858,7 @@
     <div class="howto-step reveal">
       <div class="howto-num">01</div>
       <h3>Запусти Minecraft</h3>
-      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее.</p>
+      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее. Подойдёт любая лицензия или другая версия.</p>
     </div>
     <div class="howto-step reveal">
       <div class="howto-num">02</div>
@@ -2111,15 +2115,15 @@
     <h2>Готов <em>начать?</em></h2>
     <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
     <div class="hero-actions">
-      <button class="btn-ip accent" data-ip="mc.anarchyorigin.com">
+      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         <span class="tip">IP скопирован</span>
       </button>
-      <button class="btn-ip" data-scroll="how-to-connect">
+      <button class="btn-ip secondary" data-scroll="how-to-connect">
         <span>Как зайти</span>
-        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
     </div>
     <div class="version-pill" style="margin-top: 28px;">
