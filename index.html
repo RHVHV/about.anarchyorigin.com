@@ -787,6 +787,125 @@
   .feat h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
   .feat p { color: var(--t2); font-size: 14.5px; line-height: 1.6; }
 
+  .howto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    position: relative;
+  }
+
+  .howto-step {
+    position: relative;
+    padding: 32px 28px 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
+  }
+
+  .howto-step::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--o2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .howto-step:hover {
+    transform: translateY(-5px);
+    border-color: var(--line-accent);
+    background: var(--card-hover);
+    box-shadow: 0 24px 60px rgba(230,92,0,0.15);
+  }
+
+  .howto-step:hover::after { opacity: 1; }
+
+  .howto-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(230,92,0,0.18), rgba(249,168,37,0.08));
+    border: 1px solid rgba(230,92,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--o2);
+    margin-bottom: 20px;
+    letter-spacing: -0.03em;
+    box-shadow: 0 8px 24px rgba(230,92,0,0.15);
+  }
+
+  .howto-step h3 {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .howto-step p {
+    color: var(--t2);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .howto-step code {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--o2);
+    background: rgba(230,92,0,0.1);
+    border: 1px solid rgba(230,92,0,0.25);
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    word-break: break-all;
+  }
+
+  .howto-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%);
+    border: 1px solid rgba(230,92,0,0.25);
+    border-radius: 16px;
+    font-size: 15px;
+    color: var(--t2);
+    line-height: 1.6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .howto-tip::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--o2), var(--o3));
+  }
+
+  .howto-tip svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--o2);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .howto-tip strong { color: var(--t1); font-weight: 700; }
+
   .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
   .action-card {
@@ -1288,7 +1407,7 @@
 
   @media (max-width: 600px) {
     .section { padding: 64px 18px; }
-    .principles, .stats, .timeline, .feature-row, .fact-cards, .socials { grid-template-columns: 1fr; }
+    .principles, .stats, .timeline, .feature-row, .fact-cards, .socials, .howto { grid-template-columns: 1fr; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .btn-ip { justify-content: center; }
     .cta { padding: 90px 20px; }
@@ -1319,6 +1438,9 @@
     .contact-name { font-size: 14px; }
     .contact-val { font-size: 12px; }
     .contact-arrow { display: none; }
+    .howto-step { padding: 26px 22px 22px; }
+    .howto-num { width: 40px; height: 40px; font-size: 14px; }
+    .howto-tip { padding: 16px 18px; font-size: 14px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
@@ -1588,6 +1710,40 @@
       <h3>Голосовой чат</h3>
       <p>Общайся с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p>
     </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="head reveal">
+    <div class="head-label">Инструкция</div>
+    <h2>Как зайти <em>на сервер</em></h2>
+    <p class="sub">Четыре простых шага — и ты в игре</p>
+  </div>
+  <div class="howto">
+    <div class="howto-step reveal">
+      <div class="howto-num">01</div>
+      <h3>Запусти Minecraft</h3>
+      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее. Подойдёт любая лицензия или другая версия.</p>
+    </div>
+    <div class="howto-step reveal">
+      <div class="howto-num">02</div>
+      <h3>Открой «Сетевая игра»</h3>
+      <p>В главном меню выбери «Сетевая игра» и нажми «Добавить сервер», чтобы создать новую запись.</p>
+    </div>
+    <div class="howto-step reveal">
+      <div class="howto-num">03</div>
+      <h3>Введи адрес сервера</h3>
+      <p>В поле «Адрес сервера» вставь:<br><code>mc.anarchyorigin.com</code></p>
+    </div>
+    <div class="howto-step reveal">
+      <div class="howto-num">04</div>
+      <h3>Подключись к игре</h3>
+      <p>Сохрани сервер, выбери его в списке и нажми «Подключиться». Загрузка мира занимает несколько секунд.</p>
+    </div>
+  </div>
+  <div class="howto-tip reveal">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><strong>Совет:</strong> версия 1.21.11 — рекомендуемая.</span>
   </div>
 </section>
 
