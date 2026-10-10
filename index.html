@@ -11,6 +11,7 @@
 <meta name="theme-color" content="#08080d">
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AnarchyOrigin">
 <link rel="canonical" href="https://about.anarchyorigin.com/">
@@ -175,7 +176,7 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .nav-links { display: flex; gap: 26px; align-items: center; margin-left: auto; margin-right: auto; }
+  .nav-links { display: flex; gap: 22px; align-items: center; margin-left: auto; margin-right: auto; }
 
   .nav-links a {
     font-size: 14px;
@@ -187,6 +188,37 @@
   }
 
   .nav-links a:hover { color: var(--o2); }
+
+  .nav-donate {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: linear-gradient(135deg, var(--o1), var(--o2));
+    color: #08080d !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(230,92,0,0.35);
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-donate:hover {
+    color: #08080d !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(230,92,0,0.55);
+  }
+
+  .nav-donate svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
   .nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
@@ -286,6 +318,19 @@
   }
 
   .mobile-menu a:hover { background: rgba(230,92,0,0.12); color: var(--o2); }
+
+  .mobile-menu .mobile-donate {
+    background: linear-gradient(135deg, var(--o1), var(--o2));
+    color: #08080d;
+    font-weight: 700;
+    margin-bottom: 6px;
+    box-shadow: 0 4px 18px rgba(230,92,0,0.35);
+  }
+
+  .mobile-menu .mobile-donate:hover {
+    color: #08080d;
+    background: linear-gradient(135deg, var(--o2), var(--o3));
+  }
 
   .mobile-menu .divider { height: 1px; background: var(--line); margin: 8px 0; }
 
@@ -1382,8 +1427,9 @@
   .contact-btn.email { --acc: #f9a825; --acc-bg: rgba(249,168,37,0.12); --acc-border: rgba(249,168,37,0.3); --acc-shadow: rgba(249,168,37,0.2); }
 
   @media (max-width: 1100px) {
-    .nav-links { gap: 18px; }
+    .nav-links { gap: 16px; }
     .nav-links a { font-size: 13px; }
+    .nav-donate { font-size: 12px !important; padding: 8px 12px; }
     .copy-ip { font-size: 12px; padding: 9px 14px; }
     .copy-ip .ip-label { display: none; }
     .nav { padding: 18px 24px; }
@@ -1463,6 +1509,10 @@
     <div class="nav-logo">AnarchyOrigin</div>
   </div>
   <div class="nav-links">
+    <a href="https://anarchyorigin.com" class="nav-donate">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="19" cy="20" r="1.4"/><path d="M2 3h3l2.7 13.3a2 2 0 002 1.7h9.7a2 2 0 002-1.7L23 6H6"/></svg>
+      Купить донат
+    </a>
     <a href="https://anarchyorigin.com">Главная</a>
     <a href="https://media.anarchyorigin.com">Блогерам</a>
     <a href="https://news.anarchyorigin.com">Новости</a>
@@ -1485,6 +1535,7 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
+  <a href="https://anarchyorigin.com" class="mobile-donate">Купить донат</a>
   <a href="https://anarchyorigin.com">Главная</a>
   <a href="https://media.anarchyorigin.com">Блогерам</a>
   <a href="https://news.anarchyorigin.com">Новости</a>
@@ -1983,12 +2034,18 @@
     </div>
     <h2>Готов <em>начать?</em></h2>
     <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
-    <button class="btn-ip" data-ip="mc.anarchyorigin.com">
-      <span class="dot"></span>
-      <span>Скопировать IP</span>
-      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      <span class="tip">IP скопирован</span>
-    </button>
+    <div class="hero-actions">
+      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
+        <span class="dot"></span>
+        <span>Скопировать IP</span>
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span class="tip">IP скопирован</span>
+      </button>
+      <button class="btn-ip" data-scroll="how-to-connect">
+        <span>Как зайти</span>
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
+      </button>
+    </div>
     <div class="version-pill" style="margin-top: 28px;">
       <span class="dotv"></span>
       Поддерживаемые версии: <span class="val" id="versionValCta">1.21.11-26.3</span>
