@@ -1734,9 +1734,32 @@
   (function() {
     const el = document.getElementById('monthsWorked');
     if (!el) return;
-    const start = new Date(2026, 0, 1);
-    const now = new Date();
-    const months = Math.max(0, (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()));
+
+    const startYear = 2026;
+    const startMonth = 0;
+
+    let currentYear, currentMonth;
+
+    try {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Europe/Moscow',
+        year: 'numeric',
+        month: 'numeric'
+      }).formatToParts(new Date());
+
+      const map = {};
+      parts.forEach(p => { map[p.type] = p.value; });
+
+      currentYear = parseInt(map.year, 10);
+      currentMonth = parseInt(map.month, 10) - 1;
+    } catch (e) {
+      const now = new Date();
+      currentYear = now.getFullYear();
+      currentMonth = now.getMonth();
+    }
+
+    const months = Math.max(0, (currentYear - startYear) * 12 + (currentMonth - startMonth));
+
     el.dataset.count = months;
     statIO.observe(el);
   })();
