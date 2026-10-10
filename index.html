@@ -247,26 +247,6 @@
 
   .copy-ip .ip-label { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; }
 
-  .copy-ip .tip {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-6px);
-    padding: 6px 12px;
-    background: var(--o2);
-    color: #08080d;
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: 8px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .copy-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-
   .burger {
     display: none;
     width: 40px;
@@ -543,27 +523,6 @@
     position: relative;
     z-index: 1;
   }
-
-  .btn-ip .tip {
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-6px);
-    padding: 7px 14px;
-    background: var(--t1);
-    color: #08080d;
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: 8px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-    z-index: 3;
-  }
-
-  .btn-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   .version-pill {
     display: inline-flex;
@@ -1505,6 +1464,83 @@
   .contact-btn.jivo { --acc: #22c55e; --acc-bg: rgba(34,197,94,0.12); --acc-border: rgba(34,197,94,0.3); --acc-shadow: rgba(34,197,94,0.2); }
   .contact-btn.email { --acc: #f9a825; --acc-bg: rgba(249,168,37,0.12); --acc-border: rgba(249,168,37,0.3); --acc-shadow: rgba(249,168,37,0.2); }
 
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%) translateY(140px);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 24px 14px 16px;
+    background: rgba(13,13,20,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(34,197,94,0.45);
+    border-radius: 16px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.6), 0 0 40px rgba(34,197,94,0.15);
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    max-width: calc(100vw - 32px);
+    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .toast .toast-ico {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(34,197,94,0.15);
+    border: 1px solid rgba(34,197,94,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .toast .toast-ico svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .toast .toast-txt {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .toast.warn {
+    border-color: rgba(249,168,37,0.5);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.6), 0 0 40px rgba(249,168,37,0.2);
+  }
+
+  .toast.warn .toast-ico {
+    background: rgba(249,168,37,0.15);
+    border-color: rgba(249,168,37,0.45);
+    color: var(--o2);
+  }
+
+  .toast.warn .toast-txt {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
   @media (max-width: 1100px) {
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 13px; }
@@ -1569,6 +1605,9 @@
     .howto-num { width: 40px; height: 40px; font-size: 14px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
     .btn-ip { padding: 15px 24px; font-size: 14px; }
+    .toast { bottom: 20px; padding: 12px 18px 12px 14px; gap: 12px; }
+    .toast .toast-ico { width: 30px; height: 30px; }
+    .toast .toast-txt { font-size: 13px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
@@ -1604,7 +1643,6 @@
       <span class="ip-label">IP:</span>
       <span>mc.anarchyorigin.com</span>
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      <span class="tip">IP скопирован</span>
     </button>
     <button class="burger" id="burger" aria-label="Меню">
       <span></span>
@@ -1627,7 +1665,6 @@
   <button class="copy-ip" data-ip="mc.anarchyorigin.com">
     <span>Скопировать IP</span>
     <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-    <span class="tip">IP скопирован</span>
   </button>
 </div>
 
@@ -1646,7 +1683,6 @@
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        <span class="tip">IP скопирован</span>
       </button>
     </div>
     <div class="version-pill">
@@ -2119,7 +2155,6 @@
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        <span class="tip">IP скопирован</span>
       </button>
       <button class="btn-ip secondary" data-scroll="how-to-connect">
         <span>Как зайти</span>
@@ -2222,6 +2257,13 @@
       </a>
     </div>
   </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast-ico" id="toastIco">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="toast-txt" id="toastTxt">IP скопирован</div>
 </div>
 
 <script type="application/ld+json">
@@ -2395,31 +2437,70 @@
       });
   })();
 
-  async function copyIp(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (err) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      const ok = document.execCommand('copy');
-      document.body.removeChild(ta);
-      return ok;
-    }
-  }
+  (function() {
+    const COOLDOWN = 5000;
+    const ICON_OK = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+    const ICON_WARN = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7.5" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/></svg>';
 
-  document.querySelectorAll('[data-ip]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const ok = await copyIp(btn.dataset.ip);
-      if (!ok) return;
-      btn.classList.add('done');
-      setTimeout(() => btn.classList.remove('done'), 1800);
+    const toast = document.getElementById('toast');
+    const toastIco = document.getElementById('toastIco');
+    const toastTxt = document.getElementById('toastTxt');
+
+    let lastCopy = 0;
+    let hideTimer = null;
+
+    function showToast(text, type) {
+      toastTxt.textContent = text;
+      toastIco.innerHTML = type === 'warn' ? ICON_WARN : ICON_OK;
+      toast.className = 'toast show' + (type === 'warn' ? ' warn' : '');
+
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    async function copyIp(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (err) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        ta.style.pointerEvents = 'none';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    document.querySelectorAll('[data-ip]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const now = Date.now();
+        const diff = now - lastCopy;
+
+        if (diff < COOLDOWN) {
+          const wait = Math.ceil((COOLDOWN - diff) / 1000);
+          showToast('Подождите ' + wait + ' сек.', 'warn');
+          return;
+        }
+
+        lastCopy = now;
+        const ok = await copyIp(btn.dataset.ip);
+
+        if (ok) {
+          showToast(btn.dataset.ip + ' — скопировано', 'ok');
+        } else {
+          showToast('Не удалось скопировать', 'warn');
+        }
+      });
     });
-  });
+  })();
 
   (function() {
     const serverIp = 'mc.anarchyorigin.com';
