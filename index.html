@@ -126,6 +126,8 @@
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
+  .is-hidden { display: none !important; }
+
   .nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -442,29 +444,89 @@
 
   .hero p { font-size: clamp(16px, 2.2vw, 20px); color: var(--t2); max-width: 620px; margin: 0 auto 40px; }
 
-  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; align-items: center; }
 
   .btn-ip {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 18px 28px;
-    background: rgba(255,255,255,0.04);
+    gap: 11px;
+    padding: 17px 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
     border: 1px solid var(--line-accent);
-    border-radius: 16px;
+    border-radius: 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 15px;
     font-weight: 600;
     color: var(--o2);
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 6px 24px rgba(230,92,0,0.08);
   }
 
-  .btn-ip:hover { border-color: var(--o2); box-shadow: 0 0 40px rgba(230,92,0,0.35); transform: translateY(-3px); }
+  .btn-ip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(230,92,0,0.22) 0%, rgba(249,168,37,0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
 
-  .btn-ip .dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px var(--green); animation: blink 2s infinite; flex-shrink: 0; }
+  .btn-ip::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.7s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+  }
 
-  .btn-ip svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .btn-ip:hover {
+    border-color: var(--o2);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 16px 44px rgba(230,92,0,0.35), 0 0 0 1px rgba(249,168,37,0.25);
+  }
+
+  .btn-ip:hover::before { opacity: 1; }
+  .btn-ip:hover::after { left: 130%; }
+
+  .btn-ip .dot {
+    width: 10px; height: 10px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--green);
+    animation: blink 2s infinite;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-ip svg {
+    width: 18px; height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .btn-ip:hover svg { transform: translateY(2px); }
+
+  .btn-ip span {
+    position: relative;
+    z-index: 1;
+  }
 
   .btn-ip .tip {
     position: absolute;
@@ -482,9 +544,22 @@
     transition: all 0.3s ease;
     white-space: nowrap;
     font-family: 'Inter', sans-serif;
+    z-index: 3;
   }
 
   .btn-ip.done .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .btn-ip.accent {
+    background: linear-gradient(135deg, rgba(230,92,0,0.14) 0%, rgba(249,168,37,0.06) 100%);
+    border-color: rgba(230,92,0,0.55);
+    color: var(--o3);
+    box-shadow: 0 8px 28px rgba(230,92,0,0.18);
+  }
+
+  .btn-ip.accent:hover {
+    color: #fff;
+    box-shadow: 0 20px 50px rgba(230,92,0,0.45), 0 0 0 1px rgba(249,168,37,0.4);
+  }
 
   .version-pill {
     display: inline-flex;
@@ -1168,7 +1243,7 @@
 
   .cta h2 em { font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .cta p { color: var(--t2); font-size: 18px; margin-bottom: 36px; }
-  .cta .btn-ip { font-size: 17px; padding: 20px 32px; }
+  .cta .btn-ip { font-size: 16px; padding: 18px 30px; }
 
   footer { position: relative; padding: 60px 24px 40px; border-top: 1px solid var(--line); text-align: center; z-index: 1; }
 
@@ -1489,6 +1564,7 @@
     .howto-step { padding: 26px 22px 22px; }
     .howto-num { width: 40px; height: 40px; font-size: 14px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
+    .btn-ip { padding: 15px 22px; font-size: 14px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
@@ -1562,7 +1638,7 @@
     <h1>AnarchyOrigin</h1>
     <p>Анархия, в которой прогресс не сбрасывают. Мир, который растёт. Экономика, которая работает. Свобода без компромиссов.</p>
     <div class="hero-actions">
-      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
+      <button class="btn-ip accent" data-ip="mc.anarchyorigin.com">
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -1693,8 +1769,8 @@
     <p class="sub">Техническое состояние сервера</p>
   </div>
   <div class="stats">
-    <div class="s-item live-stat reveal" id="onlineCard">
-      <div class="num live-num" id="playersOnline">—</div>
+    <div class="s-item live-stat reveal is-hidden" id="onlineCard">
+      <div class="num live-num" id="playersOnline">0</div>
       <div class="live-lbl"><span class="live-dot"></span>Игроков онлайн</div>
     </div>
     <div class="s-item reveal">
@@ -2035,7 +2111,7 @@
     <h2>Готов <em>начать?</em></h2>
     <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
     <div class="hero-actions">
-      <button class="btn-ip" data-ip="mc.anarchyorigin.com">
+      <button class="btn-ip accent" data-ip="mc.anarchyorigin.com">
         <span class="dot"></span>
         <span>Скопировать IP</span>
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -2244,6 +2320,7 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
   reveals.forEach((el, i) => {
+    if (el.id === 'onlineCard') return;
     el.style.transitionDelay = (i % 4) * 80 + 'ms';
     io.observe(el);
   });
@@ -2348,8 +2425,15 @@
     const versionEls = [document.getElementById('versionVal'), document.getElementById('versionValCta')];
     if (!onlineCard || !playersEl) return;
 
-    function removeOnlineCard() {
-      onlineCard.remove();
+    function revealOnlineCard() {
+      if (!onlineCard.classList.contains('is-hidden')) return;
+      onlineCard.classList.remove('is-hidden');
+      requestAnimationFrame(() => {
+        onlineCard.classList.add('active');
+        playersEl.classList.remove('updated');
+        void playersEl.offsetWidth;
+        playersEl.classList.add('updated');
+      });
     }
 
     function updateVersion(version) {
@@ -2363,10 +2447,7 @@
       fetchWithTimeout(apiUrl, 8000)
         .then(r => r.json())
         .then(data => {
-          if (!data || !data.online) {
-            removeOnlineCard();
-            return;
-          }
+          if (!data || !data.online) return;
 
           if (data.players && typeof data.players.online === 'number') {
             playersEl.textContent = data.players.online;
@@ -2378,13 +2459,9 @@
             updateVersion(data.version);
           }
 
-          playersEl.classList.remove('updated');
-          void playersEl.offsetWidth;
-          playersEl.classList.add('updated');
+          revealOnlineCard();
         })
-        .catch(() => {
-          removeOnlineCard();
-        });
+        .catch(() => {});
     }
 
     fetchOnline();
