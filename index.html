@@ -583,7 +583,7 @@
   .p-body h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; margin-top: 60px; }
   .p-body p { color: var(--t2); font-size: 15px; line-height: 1.65; }
 
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
 
   .s-item {
     padding: 36px 24px;
@@ -1277,6 +1277,10 @@
       <div class="live-lbl"><span class="live-dot"></span>Игроков онлайн</div>
     </div>
     <div class="s-item reveal">
+      <div class="num" id="monthsWorked">0</div>
+      <div class="lbl">Месяцев работы</div>
+    </div>
+    <div class="s-item reveal">
       <div class="num" data-count="99.8" data-decimals="1" data-suffix="%">0</div>
       <div class="lbl">Аптайм</div>
     </div>
@@ -1626,6 +1630,7 @@
       "@id": "https://anarchyorigin.com/#organization",
       "name": "AnarchyOrigin",
       "url": "https://anarchyorigin.com",
+      "foundingDate": "2026-01-01",
       "logo": {
         "@type": "ImageObject",
         "url": "https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png"
@@ -1648,6 +1653,7 @@
       "gamePlatform": "PC",
       "operatingSystem": "Windows, macOS, Linux",
       "inLanguage": "ru",
+      "datePublished": "2026-01-01",
       "publisher": {
         "@id": "https://anarchyorigin.com/#organization"
       }
@@ -1724,6 +1730,16 @@
   }, { threshold: 0.5 });
 
   document.querySelectorAll('.num[data-count]').forEach(el => statIO.observe(el));
+
+  (function() {
+    const el = document.getElementById('monthsWorked');
+    if (!el) return;
+    const start = new Date(2026, 0, 1);
+    const now = new Date();
+    const months = Math.max(0, (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()));
+    el.dataset.count = months;
+    statIO.observe(el);
+  })();
 
   async function copyIp(text) {
     try {
