@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AnarchyOrigin — О сервере</title>
-<link rel="icon" type="image/png" href="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png">
-<link rel="apple-touch-icon" href="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png">
+<title>О сервере — AnarchyOrigin</title>
+<link rel="icon" type="image/png" href="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png">
+<link rel="apple-touch-icon" href="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -48,7 +48,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  a, button, div, span, li, h1, h2, h3, p, svg {
+  a, button, div, span, li, h1, h2, h3, p, svg, img {
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -583,6 +583,51 @@
 
   .s-item .lbl { font-size: 13px; color: var(--t2); font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; }
 
+  .s-item.live-stat { position: relative; border-color: rgba(34,197,94,0.25); }
+  .s-item.live-stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
+
+  .s-item .num.live-num {
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .s-item .num.live-num.updated {
+    animation: pop 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+
+  .live-lbl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--t2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+
+  .live-lbl .live-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--green);
+    animation: blink 2s infinite;
+    flex-shrink: 0;
+  }
+
   .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px 40px; }
 
   .tl-item {
@@ -832,11 +877,13 @@
     position: relative;
     z-index: 1;
     transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
   }
 
   .soc:hover .soc-ico { transform: scale(1.08) rotate(-4deg); }
 
   .soc-ico svg { width: 26px; height: 26px; fill: #fff; }
+  .soc-ico img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   .soc-body { min-width: 0; position: relative; z-index: 1; }
   .soc-name { font-size: 16px; font-weight: 800; color: var(--t1); margin-bottom: 3px; letter-spacing: -0.01em; }
@@ -872,7 +919,7 @@
   .soc-arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
   .soc.tiktok { --soc-color: #00f2ea; --soc-shadow: rgba(0,242,234,0.2); }
-  .soc.tiktok .soc-ico { background: linear-gradient(135deg, #00f2ea 0%, #ff0050 100%); box-shadow: 0 8px 24px rgba(255,0,80,0.3); }
+  .soc.tiktok .soc-ico { background: #000; box-shadow: 0 8px 24px rgba(255,0,80,0.3); padding: 8px; }
 
   .soc.discord { --soc-color: #5865F2; --soc-shadow: rgba(88,101,242,0.25); }
   .soc.discord .soc-ico { background: #5865F2; box-shadow: 0 8px 24px rgba(88,101,242,0.35); }
@@ -1015,7 +1062,7 @@
 <nav class="nav" id="nav">
   <div class="nav-brand">
     <div class="nav-icon">
-      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+      <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
     </div>
     <div class="nav-logo">AnarchyOrigin</div>
   </div>
@@ -1060,7 +1107,7 @@
   <div class="hero-grid"></div>
   <div class="hero-inner">
     <div class="hero-icon">
-      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+      <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
     </div>
     <div class="tag">О сервере</div>
     <h1>AnarchyOrigin</h1>
@@ -1197,6 +1244,10 @@
     <p class="sub">Техническое состояние сервера</p>
   </div>
   <div class="stats">
+    <div class="s-item live-stat reveal">
+      <div class="num live-num" id="playersOnline">—</div>
+      <div class="live-lbl"><span class="live-dot"></span>Игроков онлайн</div>
+    </div>
     <div class="s-item reveal">
       <div class="num" data-count="99.8" data-decimals="1" data-suffix="%">0</div>
       <div class="lbl">Аптайм</div>
@@ -1204,10 +1255,6 @@
     <div class="s-item reveal">
       <div class="num" data-count="20" data-decimals="1">0</div>
       <div class="lbl">Стабильный TPS</div>
-    </div>
-    <div class="s-item reveal">
-      <div class="num" data-count="24" data-suffix="/7">0</div>
-      <div class="lbl">Онлайн</div>
     </div>
     <div class="s-item reveal">
       <div class="num" data-count="70" data-suffix="">0</div>
@@ -1272,7 +1319,7 @@
   <div class="visual reveal">
     <div class="visual-inner">
       <div class="visual-icon-img">
-        <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+        <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
       </div>
       <div class="visual-cap">Один сервер</div>
       <div class="visual-txt">Одна история. Без сбросов.</div>
@@ -1343,7 +1390,7 @@
   <div class="socials">
     <a href="https://tiktok.com/@anarchyorigin" class="soc tiktok reveal" target="_blank" rel="noopener">
       <div class="soc-ico">
-        <svg viewBox="0 0 24 24"><path d="M12.53 2h3.03c.1 1.9 1.36 3.5 3.44 4.1v3.03a6.86 6.86 0 0 1-3.44-1.08v7.09a5.94 5.94 0 1 1-5.94-5.94c.3 0 .59.03.87.08v3.1a2.9 2.9 0 1 0 2.04 2.76V2z"/></svg>
+        <img src="https://static.vecteezy.com/system/resources/previews/042/127/139/large_2x/square-tiktok-logo-on-a-transparent-background-free-png.png" alt="TikTok">
       </div>
       <div class="soc-body">
         <div class="soc-name">TikTok</div>
@@ -1412,28 +1459,28 @@
   </div>
   <div class="timeline">
     <div class="tl-item reveal">
-      <div class="tl-year">2025</div>
+      <div class="tl-year">2026</div>
       <div class="tl-body">
         <h3>Запуск сервера</h3>
         <p>Открытие AnarchyOrigin с базовой инфраструктурой: авторизация, защита от читеров, простые приваты.</p>
       </div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-year">2025</div>
+      <div class="tl-year">2026</div>
       <div class="tl-body">
         <h3>Расширение границ</h3>
         <p>Первое расширение мира для новых игроков. Начало работы налоговой системы и аукциона.</p>
       </div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-year">2025</div>
+      <div class="tl-year">2026</div>
       <div class="tl-body">
         <h3>Внедрение ивентов</h3>
         <p>Ежечасные Мистические сундуки и ежедневный Легендарный сундук. Аирдропы и конкурсы.</p>
       </div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-year">2025</div>
+      <div class="tl-year">2026</div>
       <div class="tl-body">
         <h3>Голосовой чат и кланы</h3>
         <p>Поддержка голосового общения в реальном времени и расширенная система кланов.</p>
@@ -1496,7 +1543,7 @@
 <section class="cta">
   <div class="cta-inner reveal">
     <div class="cta-icon">
-      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+      <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
     </div>
     <h2>Готов <em>начать?</em></h2>
     <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
@@ -1516,7 +1563,7 @@
 <footer>
   <div class="f-brand">
     <div class="f-icon">
-      <img src="https://cdn.easydonate.ru/images/logos/6f/c7/6fc7ca838acd3627ec80b99cd3f7eb05f8fe50ef489348ea8b2850b52b80d863.png" alt="AnarchyOrigin">
+      <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
     </div>
     <div class="f-logo">AnarchyOrigin</div>
   </div>
@@ -1528,7 +1575,7 @@
     <a href="https://anarchyorigin.com/rules">Правила</a>
     <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
   </div>
-  <div class="f-copy">© 2026 AnarchyOrigin. Все права защищены.</div>
+  <div class="f-copy">© <span id="currentYear">2026</span> AnarchyOrigin. Все права защищены.</div>
 </footer>
 
 <script>
@@ -1625,6 +1672,41 @@
       setTimeout(() => btn.classList.remove('done'), 1800);
     });
   });
+
+  (function() {
+    const serverIp = 'mc.anarchyorigin.com';
+    const apiUrl = 'https://api.mcsrvstat.us/3/' + serverIp;
+    const el = document.getElementById('playersOnline');
+    if (!el) return;
+
+    function fetchOnline() {
+      fetch(apiUrl)
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.online && data.players) {
+            el.textContent = data.players.online;
+          } else {
+            el.textContent = '0';
+          }
+          el.classList.remove('updated');
+          void el.offsetWidth;
+          el.classList.add('updated');
+        })
+        .catch(() => {
+          el.textContent = '—';
+        });
+    }
+
+    fetchOnline();
+    setInterval(fetchOnline, 60000);
+  })();
+
+  (function() {
+    const yearEl = document.getElementById('currentYear');
+    if (yearEl) {
+      yearEl.textContent = new Date().getFullYear();
+    }
+  })();
 </script>
 
 </body>
