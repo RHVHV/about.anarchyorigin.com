@@ -95,15 +95,8 @@
   :focus { outline: none; }
   :focus-visible { outline: 2px solid var(--o3); outline-offset: 2px; }
 
-  ::selection {
-    background: rgba(230,92,0,0.3);
-    color: #fff;
-  }
-
-  ::-moz-selection {
-    background: rgba(230,92,0,0.3);
-    color: #fff;
-  }
+  ::selection { background: rgba(230,92,0,0.3); color: #fff; }
+  ::-moz-selection { background: rgba(230,92,0,0.3); color: #fff; }
 
   body::before {
     content: '';
@@ -642,78 +635,160 @@
   /* ===== ACCORDION (principles) ===== */
   .accordion {
     display: grid;
-    gap: 0;
+    gap: 12px;
     max-width: 920px;
     margin: 0 auto;
   }
 
   .acc-item {
-    border-bottom: 1px solid var(--line);
-    transition: border-color 0.3s ease;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    overflow: hidden;
+    transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
   }
 
-  .acc-item:first-child { border-top: 1px solid var(--line); }
-  .acc-item.open { border-color: var(--line-accent); }
+  .acc-item:hover {
+    border-color: rgba(230,92,0,0.25);
+    background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  }
+
+  .acc-item.open {
+    border-color: rgba(230,92,0,0.45);
+    background: linear-gradient(160deg, rgba(230,92,0,0.06) 0%, rgba(249,168,37,0.02) 100%);
+    box-shadow: 0 20px 50px rgba(230,92,0,0.12);
+  }
 
   .acc-head {
     display: flex;
     align-items: center;
-    gap: 24px;
-    padding: 26px 8px;
+    gap: 20px;
+    padding: 20px 24px;
     cursor: pointer;
     user-select: none;
-    transition: padding 0.35s ease;
   }
 
   .acc-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--t3);
-    letter-spacing: 0.05em;
+    position: relative;
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--o2);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(249,168,37,0.22), transparent 60%),
+      linear-gradient(135deg, rgba(230,92,0,0.22) 0%, rgba(230,92,0,0.06) 100%);
+    border: 1px solid rgba(230,92,0,0.35);
+    box-shadow:
+      0 10px 26px rgba(230,92,0,0.16),
+      inset 0 1px 0 rgba(255,255,255,0.08);
     flex-shrink: 0;
-    min-width: 32px;
-    transition: color 0.3s ease;
+    transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
   }
 
-  .acc-item.open .acc-num { color: var(--o2); }
+  .acc-num::before {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.08) 90deg, transparent 180deg);
+    animation: numShine 6s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes numShine {
+    to { transform: rotate(360deg); }
+  }
+
+  .acc-num span {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--o2) 70%, var(--o1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.06em;
+  }
+
+  .acc-item:hover .acc-num {
+    border-color: rgba(230,92,0,0.55);
+    box-shadow:
+      0 14px 34px rgba(230,92,0,0.24),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .acc-item.open .acc-num {
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.28), transparent 60%),
+      linear-gradient(135deg, var(--o1) 0%, var(--o2) 100%);
+    border-color: rgba(255,255,255,0.2);
+    box-shadow:
+      0 16px 38px rgba(230,92,0,0.45),
+      0 0 0 4px rgba(230,92,0,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+    transform: scale(1.04);
+  }
+
+  .acc-item.open .acc-num span {
+    background: #08080d;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   .acc-title {
     flex: 1;
-    font-size: clamp(17px, 2.4vw, 22px);
+    font-size: clamp(17px, 2.4vw, 21px);
     font-weight: 700;
     letter-spacing: -0.015em;
     color: var(--t1);
     line-height: 1.3;
     transition: color 0.3s ease;
+    min-width: 0;
   }
 
   .acc-item:hover .acc-title { color: var(--o2); }
   .acc-item.open .acc-title { color: var(--o3); }
 
   .acc-icon {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     color: var(--t3);
-    transition: color 0.3s ease;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   }
 
   .acc-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 2.2;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
     transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
   }
 
-  .acc-item.open .acc-icon { color: var(--o2); }
+  .acc-item:hover .acc-icon {
+    border-color: rgba(230,92,0,0.35);
+  }
+
+  .acc-item.open .acc-icon {
+    color: var(--o2);
+    background: rgba(230,92,0,0.14);
+    border-color: rgba(230,92,0,0.4);
+  }
+
   .acc-item.open .acc-icon svg { transform: rotate(45deg); }
 
   .acc-body {
@@ -724,7 +799,7 @@
 
   .acc-body-inner {
     overflow: hidden;
-    padding: 0 8px 0 64px;
+    padding: 0 24px 0 106px;
     color: var(--t2);
     font-size: 16px;
     line-height: 1.7;
@@ -732,7 +807,7 @@
   }
 
   .acc-item.open .acc-body { grid-template-rows: 1fr; }
-  .acc-item.open .acc-body-inner { padding-bottom: 28px; }
+  .acc-item.open .acc-body-inner { padding-bottom: 26px; }
 
   /* ===== STATS PANEL ===== */
   .stats-panel {
@@ -924,72 +999,103 @@
   }
 
   /* ===== HOWTO STEPS ===== */
-  .howto-line {
-    position: relative;
+  .howto-list {
     max-width: 780px;
     margin: 0 auto;
-    padding-left: 60px;
-  }
-
-  .howto-line::before {
-    content: '';
-    position: absolute;
-    left: 22px;
-    top: 12px;
-    bottom: 12px;
-    width: 2px;
-    background: linear-gradient(180deg, transparent 0%, rgba(230,92,0,0.45) 8%, rgba(230,92,0,0.45) 92%, transparent 100%);
+    display: grid;
+    gap: 14px;
   }
 
   .howto-step {
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+    padding: 24px 26px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     position: relative;
-    padding: 24px 0 24px 0;
-    border-bottom: 1px solid var(--line);
+    overflow: hidden;
   }
 
-  .howto-step:last-child { border-bottom: none; }
+  .howto-step::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, var(--o2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .howto-step:hover {
+    border-color: var(--line-accent);
+    background: linear-gradient(160deg, rgba(230,92,0,0.06) 0%, rgba(249,168,37,0.02) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba(230,92,0,0.12);
+  }
+
+  .howto-step:hover::before { opacity: 1; }
 
   .howto-num {
-    position: absolute;
-    left: -60px;
-    top: 22px;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(230,92,0,0.2), rgba(249,168,37,0.06));
-    border: 1px solid rgba(230,92,0,0.4);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Unbounded', 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 800;
+    letter-spacing: -0.04em;
     color: var(--o2);
-    letter-spacing: -0.03em;
-    box-shadow: 0 0 0 6px rgba(8,8,13,1), 0 0 0 7px rgba(230,92,0,0.12);
-    z-index: 2;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(249,168,37,0.2), transparent 60%),
+      linear-gradient(135deg, rgba(230,92,0,0.18) 0%, rgba(230,92,0,0.05) 100%);
+    border: 1px solid rgba(230,92,0,0.32);
+    box-shadow:
+      0 10px 24px rgba(230,92,0,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .howto-num span {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--o2) 70%, var(--o1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.06em;
   }
 
   .howto-step:hover .howto-num {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 6px rgba(8,8,13,1), 0 0 0 9px rgba(230,92,0,0.22);
+    border-color: rgba(230,92,0,0.55);
+    box-shadow:
+      0 14px 32px rgba(230,92,0,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+    transform: scale(1.04);
   }
 
-  .howto-step h3 {
+  .howto-body { flex: 1; min-width: 0; }
+
+  .howto-body h3 {
     font-size: 17px;
     font-weight: 800;
     margin-bottom: 6px;
     letter-spacing: -0.01em;
   }
 
-  .howto-step p {
+  .howto-body p {
     color: var(--t2);
     font-size: 14.5px;
     line-height: 1.6;
   }
 
-  .howto-step code {
+  .howto-body code {
     display: inline-block;
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
@@ -1055,6 +1161,9 @@
     line-height: 1.6;
     position: relative;
     overflow: hidden;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .howto-tip::before {
@@ -1684,10 +1793,7 @@
     margin-bottom: 26px;
   }
 
-  .contact-list {
-    display: grid;
-    gap: 10px;
-  }
+  .contact-list { display: grid; gap: 10px; }
 
   .contact-btn {
     display: flex;
@@ -1742,16 +1848,9 @@
     border-color: var(--acc-border-hover, rgba(230,92,0,0.5));
   }
 
-  .contact-ico svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-  }
+  .contact-ico svg { width: 20px; height: 20px; fill: currentColor; }
 
-  .contact-body {
-    flex: 1;
-    min-width: 0;
-  }
+  .contact-body { flex: 1; min-width: 0; }
 
   .contact-name {
     font-size: 15px;
@@ -1953,7 +2052,7 @@
     .fact-strip .fact:last-child { border-bottom: none; }
     .stats-panel { grid-template-columns: repeat(2, 1fr); }
     .numbered-list { grid-template-columns: 1fr; gap: 28px; }
-    .acc-body-inner { padding-left: 8px; }
+    .acc-body-inner { padding-left: 24px; }
   }
 
   @media (max-width: 600px) {
@@ -1963,9 +2062,6 @@
     .btn-ip { justify-content: center; width: 100%; }
     .cta { padding: 90px 20px; }
     .s-item { padding: 28px 20px; }
-    .p-card { padding: 26px 22px; min-height: 200px; }
-    .p-num { font-size: 100px; }
-    .p-body h3 { margin-top: 48px; }
     .tl-item { padding-left: 18px; }
     .visual { aspect-ratio: 4 / 3; }
     .nav-logo { font-size: 16px; }
@@ -1990,9 +2086,8 @@
     .contact-name { font-size: 14px; }
     .contact-val { font-size: 12px; }
     .contact-arrow { display: none; }
-    .howto-line { padding-left: 50px; }
-    .howto-line::before { left: 18px; }
-    .howto-num { left: -50px; width: 40px; height: 40px; font-size: 12px; }
+    .howto-step { padding: 20px 18px; gap: 16px; }
+    .howto-num { width: 46px; height: 46px; border-radius: 13px; font-size: 15px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
     .btn-ip { padding: 15px 24px; font-size: 14px; }
     .toast { bottom: calc(20px + env(safe-area-inset-bottom)); padding: 12px 18px 12px 14px; gap: 12px; }
@@ -2008,6 +2103,11 @@
     .tl-card p { font-size: 13.5px; }
     .num-digit { font-size: 34px; min-width: 50px; }
     .num-body h3 { font-size: 17px; }
+    .acc-head { padding: 16px 18px; gap: 14px; }
+    .acc-num { width: 50px; height: 50px; border-radius: 13px; font-size: 16px; }
+    .acc-icon { width: 34px; height: 34px; border-radius: 10px; }
+    .acc-body-inner { padding: 0 18px 0 18px; }
+    .acc-item.open .acc-body-inner { padding-bottom: 20px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
@@ -2015,6 +2115,7 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     .reveal, .tl-item { opacity: 1; transform: none; }
+    .acc-num::before { display: none; }
   }
 </style>
 </head>
@@ -2159,7 +2260,7 @@
   <div class="accordion reveal">
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">01</span>
+        <div class="acc-num"><span>01</span></div>
         <span class="acc-title">Без вайпов</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2169,7 +2270,7 @@
     </div>
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">02</span>
+        <div class="acc-num"><span>02</span></div>
         <span class="acc-title">Растущий мир</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2179,7 +2280,7 @@
     </div>
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">03</span>
+        <div class="acc-num"><span>03</span></div>
         <span class="acc-title">Настоящая экономика</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2189,7 +2290,7 @@
     </div>
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">04</span>
+        <div class="acc-num"><span>04</span></div>
         <span class="acc-title">Свобода без хаоса</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2199,7 +2300,7 @@
     </div>
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">05</span>
+        <div class="acc-num"><span>05</span></div>
         <span class="acc-title">Минимум правил</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2209,7 +2310,7 @@
     </div>
     <div class="acc-item">
       <div class="acc-head">
-        <span class="acc-num">06</span>
+        <div class="acc-num"><span>06</span></div>
         <span class="acc-title">Долгосрочный проект</span>
         <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
@@ -2323,30 +2424,38 @@
     <h2>Как зайти <em>на сервер</em></h2>
     <p class="sub">Четыре простых шага — и ты в игре</p>
   </div>
-  <div class="howto-line">
+  <div class="howto-list">
     <div class="howto-step reveal">
-      <div class="howto-num">01</div>
-      <h3>Запусти Minecraft</h3>
-      <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее.</p>
+      <div class="howto-num"><span>01</span></div>
+      <div class="howto-body">
+        <h3>Запусти Minecraft</h3>
+        <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее.</p>
+      </div>
     </div>
     <div class="howto-step reveal">
-      <div class="howto-num">02</div>
-      <h3>Открой «Сетевая игра»</h3>
-      <p>В главном меню выбери «Сетевая игра» и нажми «Добавить сервер», чтобы создать новую запись.</p>
+      <div class="howto-num"><span>02</span></div>
+      <div class="howto-body">
+        <h3>Открой «Сетевая игра»</h3>
+        <p>В главном меню выбери «Сетевая игра» и нажми «Добавить сервер», чтобы создать новую запись.</p>
+      </div>
     </div>
     <div class="howto-step reveal">
-      <div class="howto-num">03</div>
-      <h3>Введи адрес сервера</h3>
-      <p>В поле «Адрес сервера» вставь:<br><code>mc.anarchyorigin.com</code></p>
-      <button class="howto-copy" data-ip="mc.anarchyorigin.com">
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        <span>Скопировать IP</span>
-      </button>
+      <div class="howto-num"><span>03</span></div>
+      <div class="howto-body">
+        <h3>Введи адрес сервера</h3>
+        <p>В поле «Адрес сервера» вставь:<br><code>mc.anarchyorigin.com</code></p>
+        <button class="howto-copy" data-ip="mc.anarchyorigin.com">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span>Скопировать IP</span>
+        </button>
+      </div>
     </div>
     <div class="howto-step reveal">
-      <div class="howto-num">04</div>
-      <h3>Подключись к игре</h3>
-      <p>Сохрани сервер, выбери его в списке и нажми «Подключиться». Загрузка мира занимает несколько секунд.</p>
+      <div class="howto-num"><span>04</span></div>
+      <div class="howto-body">
+        <h3>Подключись к игре</h3>
+        <p>Сохрани сервер, выбери его в списке и нажми «Подключиться». Загрузка мира занимает несколько секунд.</p>
+      </div>
     </div>
   </div>
   <div class="howto-tip reveal">
