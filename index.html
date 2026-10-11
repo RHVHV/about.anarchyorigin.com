@@ -128,6 +128,7 @@
 
   .is-hidden { display: none !important; }
 
+  /* ===== NAV ===== */
   .nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -318,9 +319,11 @@
 
   .mobile-menu .copy-ip { width: 100%; justify-content: center; margin-top: 8px; padding: 14px; font-size: 14px; }
 
+  /* ===== HERO ===== */
   .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,22 +336,23 @@
     position: absolute;
     inset: 0;
     z-index: -2;
-    background:
-      radial-gradient(ellipse at top left, rgba(230,92,0,0.25) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(120,40,180,0.18) 0%, transparent 50%),
-      radial-gradient(ellipse at center, rgba(249,168,37,0.1) 0%, transparent 60%),
-      linear-gradient(180deg, #0a0a12 0%, #08080d 100%);
+    background-image: url('https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.16;
+    filter: blur(3px) saturate(0.5);
+    transform: scale(1.05);
   }
 
   .hero-bg::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      radial-gradient(circle at 15% 30%, rgba(255,255,255,0.06) 1px, transparent 1px),
-      radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04) 1px, transparent 1px),
-      radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 200px 200px, 300px 300px, 250px 250px;
+    background:
+      radial-gradient(ellipse at top left, rgba(230,92,0,0.28) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(120,40,180,0.22) 0%, transparent 50%),
+      radial-gradient(ellipse at center, rgba(249,168,37,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(8,8,13,0.55) 0%, rgba(8,8,13,0.98) 100%);
   }
 
   .hero-grid {
@@ -487,10 +491,7 @@
   }
 
   .btn-ip:hover::before { left: 130%; }
-
-  .btn-ip:active {
-    transform: translateY(-1px);
-  }
+  .btn-ip:active { transform: translateY(-1px); }
 
   .btn-ip .dot {
     width: 10px; height: 10px;
@@ -516,13 +517,9 @@
   }
 
   .btn-ip:hover svg { transform: translateX(3px); }
-
   .btn-ip .dot + span + svg { transform: none; }
 
-  .btn-ip span {
-    position: relative;
-    z-index: 1;
-  }
+  .btn-ip span { position: relative; z-index: 1; }
 
   .version-pill {
     display: inline-flex;
@@ -581,33 +578,55 @@
   .text-block strong { color: var(--t1); font-weight: 700; }
   .text-block .hl { color: var(--o2); font-weight: 600; }
 
-  .fact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+  /* ===== FACT STRIP ===== */
+  .fact-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 12px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
 
-  .fact { padding: 22px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
-  .fact:hover { border-color: var(--line-accent); background: var(--card-hover); transform: translateY(-3px); }
-  .fact .f-l { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--o3); margin-bottom: 8px; }
+  .fact-strip .fact {
+    padding: 26px 24px;
+    position: relative;
+    transition: background 0.3s ease;
+    border-right: 1px solid var(--line);
+  }
+
+  .fact-strip .fact:last-child { border-right: none; }
+  .fact-strip .fact:hover { background: rgba(255,255,255,0.02); }
+
+  .fact .f-l {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--o3);
+    margin-bottom: 8px;
+  }
   .fact .f-t { font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
   .fact .f-d { font-size: 14px; color: var(--t2); line-height: 1.5; }
 
-  .check-list { display: grid; gap: 14px; margin-top: 8px; }
+  /* ===== CHECKS (list style) ===== */
+  .check-list { display: grid; gap: 0; margin-top: 8px; border-top: 1px solid var(--line); }
 
   .check {
     display: flex;
-    gap: 14px;
+    gap: 20px;
     align-items: flex-start;
-    padding: 16px 20px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    transition: all 0.3s ease;
+    padding: 22px 8px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease, padding-left 0.3s ease;
   }
 
-  .check:hover { border-color: var(--line-accent); background: var(--card-hover); }
+  .check:hover { background: rgba(255,255,255,0.02); padding-left: 16px; }
 
   .check-mark {
-    width: 22px; height: 22px;
+    width: 26px; height: 26px;
     flex-shrink: 0;
-    border-radius: 6px;
+    border-radius: 8px;
     background: rgba(34,197,94,0.12);
     border: 1px solid rgba(34,197,94,0.4);
     display: flex;
@@ -617,123 +636,228 @@
   }
 
   .check-mark svg { width: 12px; height: 12px; stroke: var(--green); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .check-txt { color: var(--t2); font-size: 15px; line-height: 1.55; }
+  .check-txt { color: var(--t2); font-size: 15px; line-height: 1.6; }
   .check-txt strong { color: var(--t1); font-weight: 700; }
 
-  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
-
-  .p-card {
-    position: relative;
-    padding: 32px 28px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    overflow: hidden;
-    min-height: 220px;
+  /* ===== ACCORDION (principles) ===== */
+  .accordion {
+    display: grid;
+    gap: 0;
+    max-width: 920px;
+    margin: 0 auto;
   }
 
-  .p-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--o2), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 2;
+  .acc-item {
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.3s ease;
   }
 
-  .p-card:hover { transform: translateY(-5px); border-color: var(--line-accent); background: var(--card-hover); }
-  .p-card:hover::after { opacity: 1; }
+  .acc-item:first-child { border-top: 1px solid var(--line); }
+  .acc-item.open { border-color: var(--line-accent); }
 
-  .p-num {
-    position: absolute;
-    top: -20px;
-    right: -10px;
-    font-family: 'Unbounded', 'Inter', sans-serif;
-    font-size: 130px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.08em;
-    background: linear-gradient(135deg, rgba(230,92,0,0.35), rgba(249,168,37,0.08));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    pointer-events: none;
+  .acc-head {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 8px;
+    cursor: pointer;
     user-select: none;
-    z-index: 0;
-    transition: transform 0.4s ease;
+    transition: padding 0.35s ease;
   }
 
-  .p-card:hover .p-num { transform: scale(1.05); }
-
-  .p-body { position: relative; z-index: 1; }
-  .p-body h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; margin-top: 60px; }
-  .p-body p { color: var(--t2); font-size: 15px; line-height: 1.65; }
-
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
-
-  .s-item {
-    padding: 36px 24px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  .acc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t3);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    min-width: 32px;
+    transition: color 0.3s ease;
   }
 
-  .s-item:hover { transform: translateY(-6px); border-color: var(--line-accent); background: var(--card-hover); }
+  .acc-item.open .acc-num { color: var(--o2); }
 
-  .s-item .num {
-    font-size: clamp(36px, 5vw, 54px);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    background: linear-gradient(135deg, #fff, var(--o3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
-    padding-bottom: 0.05em;
-    font-variant-numeric: tabular-nums;
+  .acc-title {
+    flex: 1;
+    font-size: clamp(17px, 2.4vw, 22px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--t1);
+    line-height: 1.3;
+    transition: color 0.3s ease;
   }
 
-  .s-item .lbl { font-size: 13px; color: var(--t2); font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; }
+  .acc-item:hover .acc-title { color: var(--o2); }
+  .acc-item.open .acc-title { color: var(--o3); }
 
-  .s-item.live-stat { position: relative; border-color: rgba(34,197,94,0.25); }
-  .s-item.live-stat::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  .acc-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--t3);
+    transition: color 0.3s ease;
   }
 
-  .s-item .num.live-num {
+  .acc-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
   }
 
-  .s-item .num.live-num.updated {
-    animation: pop 0.5s cubic-bezier(0.16,1,0.3,1);
+  .acc-item.open .acc-icon { color: var(--o2); }
+  .acc-item.open .acc-icon svg { transform: rotate(45deg); }
+
+  .acc-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.16,1,0.3,1);
   }
+
+  .acc-body-inner {
+    overflow: hidden;
+    padding: 0 8px 0 64px;
+    color: var(--t2);
+    font-size: 16px;
+    line-height: 1.7;
+    transition: padding 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .acc-item.open .acc-body { grid-template-rows: 1fr; }
+  .acc-item.open .acc-body-inner { padding-bottom: 28px; }
+
+  /* ===== STATS PANEL ===== */
+  .stats-panel {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .stat-panel {
+    position: relative;
+    padding: 40px 22px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease;
+  }
+
+  .stat-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(230,92,0,0.5), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .stat-panel:hover {
+    transform: translateY(-6px);
+    border-color: var(--line-accent);
+  }
+
+  .stat-panel:hover::before { opacity: 1; }
+
+  .stat-panel.live {
+    border-color: rgba(34,197,94,0.28);
+    background: linear-gradient(180deg, rgba(34,197,94,0.06) 0%, rgba(255,255,255,0.01) 100%);
+  }
+
+  .stat-panel.live::before {
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: 1;
+  }
+
+  .stat-panel-icon {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 20px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(230,92,0,0.1);
+    border: 1px solid rgba(230,92,0,0.25);
+    color: var(--o2);
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+
+  .stat-panel:hover .stat-panel-icon {
+    background: rgba(230,92,0,0.18);
+    border-color: rgba(230,92,0,0.4);
+  }
+
+  .stat-panel.live .stat-panel-icon {
+    background: rgba(34,197,94,0.12);
+    border-color: rgba(34,197,94,0.3);
+    color: var(--green);
+  }
+
+  .stat-panel-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .stat-panel-num {
+    font-size: clamp(32px, 3.8vw, 46px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff, var(--o3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.06em;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .stat-panel.live .stat-panel-num {
+    background: linear-gradient(135deg, #fff, var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-panel-num.updated { animation: pop 0.5s cubic-bezier(0.16,1,0.3,1); }
 
   @keyframes pop {
     0% { transform: scale(1); }
-    40% { transform: scale(1.12); }
+    40% { transform: scale(1.14); }
     100% { transform: scale(1); }
   }
 
-  .live-lbl {
+  .stat-panel-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--t2);
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--t2);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    justify-content: center;
+    gap: 7px;
+    min-height: 16px;
   }
 
-  .live-lbl .live-dot {
+  .stat-panel-label .live-dot {
     display: inline-block;
     width: 7px;
     height: 7px;
@@ -744,60 +868,218 @@
     flex-shrink: 0;
   }
 
-  .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px 40px; }
-
-  .tl-item {
-    position: relative;
-    padding: 24px 0 24px 24px;
-    border-left: 2px solid rgba(230,92,0,0.2);
-    transition: border-color 0.4s ease;
-    overflow: hidden;
+  /* ===== NUMBERED FEATURES ===== */
+  .numbered-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 40px 64px;
+    max-width: 1100px;
+    margin: 0 auto;
   }
 
-  .tl-item:hover { border-left-color: var(--o2); }
+  .num-item {
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    transition: border-color 0.4s ease;
+  }
 
-  .tl-year {
-    position: absolute;
-    top: -30px;
-    right: -20px;
+  .num-item:hover { border-color: var(--line-accent); }
+
+  .num-digit {
     font-family: 'Unbounded', 'Inter', sans-serif;
-    font-size: clamp(90px, 12vw, 140px);
-    font-weight: 900;
+    font-size: 42px;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: -0.08em;
-    background: linear-gradient(135deg, rgba(230,92,0,0.28), rgba(249,168,37,0.05));
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, rgba(230,92,0,0.5), rgba(249,168,37,0.15));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
+    flex-shrink: 0;
+    min-width: 62px;
+    transition: background 0.4s ease;
   }
 
-  .tl-body { position: relative; z-index: 1; }
-  .tl-body h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
-  .tl-body p { color: var(--t2); font-size: 15px; line-height: 1.7; }
+  .num-item:hover .num-digit {
+    background: linear-gradient(135deg, var(--o3), var(--o2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-  .quote {
-    padding: 56px 44px;
+  .num-body h3 {
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.015em;
+    color: var(--t1);
+  }
+
+  .num-body p {
+    color: var(--t2);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ===== HOWTO STEPS ===== */
+  .howto-line {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
+    padding-left: 60px;
+  }
+
+  .howto-line::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent 0%, rgba(230,92,0,0.45) 8%, rgba(230,92,0,0.45) 92%, transparent 100%);
+  }
+
+  .howto-step {
+    position: relative;
+    padding: 24px 0 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .howto-step:last-child { border-bottom: none; }
+
+  .howto-num {
+    position: absolute;
+    left: -60px;
+    top: 22px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(230,92,0,0.2), rgba(249,168,37,0.06));
+    border: 1px solid rgba(230,92,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--o2);
+    letter-spacing: -0.03em;
+    box-shadow: 0 0 0 6px rgba(8,8,13,1), 0 0 0 7px rgba(230,92,0,0.12);
+    z-index: 2;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+  }
+
+  .howto-step:hover .howto-num {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 6px rgba(8,8,13,1), 0 0 0 9px rgba(230,92,0,0.22);
+  }
+
+  .howto-step h3 {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .howto-step p {
+    color: var(--t2);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .howto-step code {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--o2);
+    background: rgba(230,92,0,0.1);
+    border: 1px solid rgba(230,92,0,0.25);
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    word-break: break-all;
+  }
+
+  .howto-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: rgba(230,92,0,0.1);
+    border: 1px solid rgba(230,92,0,0.3);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--o2);
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    cursor: pointer;
+    letter-spacing: -0.01em;
+  }
+
+  .howto-copy:hover {
+    background: rgba(230,92,0,0.2);
+    border-color: rgba(230,92,0,0.55);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(230,92,0,0.2);
+  }
+
+  .howto-copy:active { transform: translateY(0); }
+
+  .howto-copy svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .howto-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 28px;
+    padding: 20px 24px;
     background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%);
     border: 1px solid rgba(230,92,0,0.25);
-    border-radius: 24px;
-    text-align: center;
+    border-radius: 16px;
+    font-size: 15px;
+    color: var(--t2);
+    line-height: 1.6;
     position: relative;
     overflow: hidden;
   }
 
-  .quote::before {
+  .howto-tip::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--o2), transparent);
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--o2), var(--o3));
   }
 
-  .quote .q-t { font-size: clamp(19px, 2.4vw, 25px); font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; color: var(--t1); margin-bottom: 18px; font-style: italic; }
-  .quote .q-a { font-size: 13px; color: var(--o3); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .howto-tip svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--o2);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
 
+  .howto-tip strong { color: var(--t1); font-weight: 700; }
+
+  /* ===== VISUAL ===== */
   .visual {
     position: relative;
     aspect-ratio: 16 / 9;
@@ -842,155 +1124,7 @@
   .visual-cap { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--o3); margin-bottom: 8px; }
   .visual-txt { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--t1); }
 
-  .feature-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-
-  .feat {
-    position: relative;
-    padding: 32px 28px;
-    border-radius: 20px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-    border: 1px solid var(--line);
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-
-  .feat:hover { transform: translateY(-5px); border-color: var(--line-accent); box-shadow: 0 24px 70px rgba(230,92,0,0.15); }
-
-  .feat .icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    background: rgba(230,92,0,0.12);
-    border: 1px solid rgba(230,92,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--o2);
-    margin-bottom: 18px;
-  }
-
-  .feat .icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .feat h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
-  .feat p { color: var(--t2); font-size: 14.5px; line-height: 1.6; }
-
-  .howto {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    position: relative;
-  }
-
-  .howto-step {
-    position: relative;
-    padding: 32px 28px 28px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    overflow: hidden;
-  }
-
-  .howto-step::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--o2), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  .howto-step:hover {
-    transform: translateY(-5px);
-    border-color: var(--line-accent);
-    background: var(--card-hover);
-    box-shadow: 0 24px 60px rgba(230,92,0,0.15);
-  }
-
-  .howto-step:hover::after { opacity: 1; }
-
-  .howto-num {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(230,92,0,0.18), rgba(249,168,37,0.08));
-    border: 1px solid rgba(230,92,0,0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Unbounded', 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--o2);
-    margin-bottom: 20px;
-    letter-spacing: -0.03em;
-    box-shadow: 0 8px 24px rgba(230,92,0,0.15);
-  }
-
-  .howto-step h3 {
-    font-size: 17px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
-
-  .howto-step p {
-    color: var(--t2);
-    font-size: 14.5px;
-    line-height: 1.6;
-  }
-
-  .howto-step code {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--o2);
-    background: rgba(230,92,0,0.1);
-    border: 1px solid rgba(230,92,0,0.25);
-    padding: 3px 10px;
-    border-radius: 6px;
-    margin-top: 8px;
-    word-break: break-all;
-  }
-
-  .howto-tip {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-top: 24px;
-    padding: 20px 24px;
-    background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%);
-    border: 1px solid rgba(230,92,0,0.25);
-    border-radius: 16px;
-    font-size: 15px;
-    color: var(--t2);
-    line-height: 1.6;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .howto-tip::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--o2), var(--o3));
-  }
-
-  .howto-tip svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--o2);
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .howto-tip strong { color: var(--t1); font-weight: 700; }
-
+  /* ===== ACTION CARDS (services) ===== */
   .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
   .action-card {
@@ -1041,12 +1175,16 @@
     justify-content: center;
     color: var(--accent, var(--o2));
     flex-shrink: 0;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition: background 0.4s ease, border-color 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
     position: relative;
     z-index: 1;
   }
 
-  .action-card:hover .action-icon { transform: scale(1.08) rotate(-4deg); }
+  .action-card:hover .action-icon {
+    background: var(--icon-bg-hover, rgba(230,92,0,0.2));
+    border-color: var(--icon-border-hover, rgba(230,92,0,0.5));
+    transform: scale(1.05);
+  }
 
   .action-icon svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -1077,57 +1215,72 @@
     --accent: #f9a825;
     --glow: rgba(249,168,37,0.25);
     --icon-bg: rgba(249,168,37,0.12);
+    --icon-bg-hover: rgba(249,168,37,0.2);
     --icon-border: rgba(249,168,37,0.3);
+    --icon-border-hover: rgba(249,168,37,0.5);
   }
 
   .action-card.donate {
     --accent: #22c55e;
     --glow: rgba(34,197,94,0.25);
     --icon-bg: rgba(34,197,94,0.12);
+    --icon-bg-hover: rgba(34,197,94,0.2);
     --icon-border: rgba(34,197,94,0.3);
+    --icon-border-hover: rgba(34,197,94,0.5);
   }
 
-  .socials { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  /* ===== SOCIALS PILLS ===== */
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
   .soc {
-    position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 18px;
-    padding: 24px 24px;
-    border-radius: 20px;
+    gap: 12px;
+    padding: 10px 22px 10px 10px;
+    border-radius: 50px;
     background: rgba(255,255,255,0.03);
     border: 1px solid var(--line);
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   }
 
-  .soc:hover { transform: translateY(-4px); border-color: var(--soc-color); box-shadow: 0 20px 60px var(--soc-shadow); }
+  .soc:hover {
+    transform: translateY(-3px);
+    border-color: var(--soc-color);
+    box-shadow: 0 12px 36px var(--soc-shadow);
+  }
 
   .soc-ico {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition: background 0.3s ease;
     overflow: hidden;
   }
 
-  .soc:hover .soc-ico { transform: scale(1.08) rotate(-4deg); }
+  .soc-ico svg { width: 20px; height: 20px; fill: #fff; }
+  .soc-ico img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 6px; }
 
-  .soc-ico svg { width: 26px; height: 26px; fill: #fff; }
-  .soc-ico img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .soc-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    min-width: 0;
+  }
 
-  .soc-body { min-width: 0; position: relative; z-index: 1; }
-  .soc-name { font-size: 16px; font-weight: 800; color: var(--t1); margin-bottom: 3px; letter-spacing: -0.01em; }
-
+  .soc-name { font-size: 14px; font-weight: 700; color: var(--t1); letter-spacing: -0.01em; }
   .soc-handle {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--t3);
     font-family: 'JetBrains Mono', monospace;
     white-space: nowrap;
@@ -1135,29 +1288,10 @@
     text-overflow: ellipsis;
     transition: color 0.3s ease;
   }
-
   .soc:hover .soc-handle { color: var(--soc-color); }
 
-  .soc-arrow {
-    margin-left: auto;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--t3);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  }
-
-  .soc:hover .soc-arrow { background: var(--soc-color); color: #08080d; transform: translateX(3px); }
-  .soc-arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-
   .soc.tiktok { --soc-color: #00f2ea; --soc-shadow: rgba(0,242,234,0.2); }
-  .soc.tiktok .soc-ico { background: #000; box-shadow: 0 8px 24px rgba(255,0,80,0.3); padding: 8px; }
+  .soc.tiktok .soc-ico { background: #000; box-shadow: 0 8px 24px rgba(255,0,80,0.3); }
 
   .soc.discord { --soc-color: #5865F2; --soc-shadow: rgba(88,101,242,0.25); }
   .soc.discord .soc-ico { background: #5865F2; box-shadow: 0 8px 24px rgba(88,101,242,0.35); }
@@ -1171,6 +1305,196 @@
   .soc.telegram { --soc-color: #229ED9; --soc-shadow: rgba(34,158,217,0.25); }
   .soc.telegram .soc-ico { background: #229ED9; box-shadow: 0 8px 24px rgba(34,158,217,0.35); }
 
+  /* ===== TIMELINE VERTICAL ===== */
+  .timeline-v {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+
+  .timeline-v::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent 0%, rgba(230,92,0,0.45) 8%, rgba(230,92,0,0.45) 92%, transparent 100%);
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 12px 0;
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .tl-item:nth-child(odd) { transform: translateX(-50px); }
+  .tl-item:nth-child(even) { transform: translateX(50px); }
+  .tl-item.active { opacity: 1; transform: translateX(0); }
+
+  .tl-dot {
+    grid-column: 2;
+    justify-self: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--o2);
+    box-shadow: 0 0 0 5px rgba(230,92,0,0.14);
+    position: relative;
+    z-index: 2;
+    transition: box-shadow 0.4s ease;
+  }
+
+  .tl-item:hover .tl-dot {
+    box-shadow: 0 0 0 8px rgba(230,92,0,0.22);
+  }
+
+  .tl-card {
+    grid-column: 1;
+    padding: 24px 28px;
+    border-radius: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    text-align: right;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, background 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tl-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    width: 10px;
+    height: 10px;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: translateY(-50%) rotate(45deg);
+    transition: border-color 0.4s ease;
+  }
+
+  .tl-item:nth-child(even) .tl-card {
+    grid-column: 3;
+    text-align: left;
+    padding: 24px 28px;
+  }
+
+  .tl-item:nth-child(even) .tl-card::after {
+    right: auto;
+    left: -8px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    border-top: none;
+    transform: translateY(-50%) rotate(-135deg);
+  }
+
+  .tl-item:hover .tl-card {
+    border-color: var(--line-accent);
+    background: var(--card-hover);
+    transform: translateY(-3px);
+  }
+
+  .tl-item:hover .tl-card::after {
+    border-color: var(--line-accent);
+  }
+
+  .tl-year {
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--o2);
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+
+  .tl-card h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.015em;
+    color: var(--t1);
+  }
+
+  .tl-card p {
+    color: var(--t2);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* ===== QUOTE ===== */
+  .quote {
+    padding: 56px 44px;
+    background: linear-gradient(160deg, rgba(230,92,0,0.08) 0%, rgba(249,168,37,0.02) 100%);
+    border: 1px solid rgba(230,92,0,0.25);
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--o2), transparent);
+  }
+
+  .quote .q-t { font-size: clamp(19px, 2.4vw, 25px); font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; color: var(--t1); margin-bottom: 18px; font-style: italic; }
+  .quote .q-a { font-size: 13px; color: var(--o3); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* ===== GOAL TAGS ===== */
+  .goal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    justify-content: center;
+  }
+
+  .goal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    background: rgba(230,92,0,0.08);
+    border: 1px solid rgba(230,92,0,0.2);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1);
+    transition: all 0.3s ease;
+  }
+
+  .goal-tag:hover {
+    border-color: rgba(230,92,0,0.45);
+    background: rgba(230,92,0,0.12);
+    transform: translateY(-2px);
+  }
+
+  .goal-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--o2);
+    box-shadow: 0 0 8px var(--o2);
+    flex-shrink: 0;
+  }
+
+  /* ===== CTA ===== */
   .cta { position: relative; padding: 130px 24px; text-align: center; z-index: 1; overflow: hidden; }
 
   .cta::before {
@@ -1179,6 +1503,12 @@
     inset: 0;
     background: radial-gradient(ellipse at center, rgba(230,92,0,0.15) 0%, transparent 60%);
     pointer-events: none;
+    animation: ctaPulse 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes ctaPulse {
+    0% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(1.15); opacity: 1; }
   }
 
   .cta-inner { position: relative; max-width: 720px; margin: 0 auto; }
@@ -1191,6 +1521,7 @@
     border: 1px solid rgba(230,92,0,0.4);
     box-shadow: 0 0 50px rgba(230,92,0,0.3);
     background: #0d0d14;
+    animation: floatIcon 6s ease-in-out infinite;
   }
 
   .cta-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -1208,6 +1539,7 @@
   .cta p { color: var(--t2); font-size: 18px; margin-bottom: 36px; }
   .cta .btn-ip { font-size: 16px; padding: 18px 32px; }
 
+  /* ===== FOOTER ===== */
   footer { position: relative; padding: 60px 24px 40px; border-top: 1px solid var(--line); text-align: center; z-index: 1; }
 
   .f-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
@@ -1234,6 +1566,7 @@
   .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
   .reveal.active { opacity: 1; transform: translateY(0); }
 
+  /* ===== MODAL ===== */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1242,9 +1575,15 @@
     -webkit-backdrop-filter: blur(10px);
     z-index: 200;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -1259,8 +1598,7 @@
     position: relative;
     width: 100%;
     max-width: 520px;
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
+    margin: auto;
     background: #0d0d14;
     border: 1px solid var(--line);
     border-radius: 24px;
@@ -1298,6 +1636,7 @@
     color: var(--t2);
     transition: all 0.25s ease;
     flex-shrink: 0;
+    z-index: 3;
   }
 
   .modal-close:hover {
@@ -1395,10 +1734,13 @@
     background: var(--acc-bg, rgba(230,92,0,0.12));
     border: 1px solid var(--acc-border, rgba(230,92,0,0.3));
     color: var(--acc, var(--o2));
-    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
 
-  .contact-btn:hover .contact-ico { transform: scale(1.08) rotate(-4deg); }
+  .contact-btn:hover .contact-ico {
+    background: var(--acc-bg-hover, rgba(230,92,0,0.2));
+    border-color: var(--acc-border-hover, rgba(230,92,0,0.5));
+  }
 
   .contact-ico svg {
     width: 20px;
@@ -1458,16 +1800,17 @@
     stroke-linejoin: round;
   }
 
-  .contact-btn.vk { --acc: #0077FF; --acc-bg: rgba(0,119,255,0.12); --acc-border: rgba(0,119,255,0.3); --acc-shadow: rgba(0,119,255,0.2); }
-  .contact-btn.telegram { --acc: #229ED9; --acc-bg: rgba(34,158,217,0.12); --acc-border: rgba(34,158,217,0.3); --acc-shadow: rgba(34,158,217,0.2); }
-  .contact-btn.max { --acc: #8B5CF6; --acc-bg: rgba(139,92,246,0.12); --acc-border: rgba(139,92,246,0.3); --acc-shadow: rgba(139,92,246,0.2); }
-  .contact-btn.jivo { --acc: #22c55e; --acc-bg: rgba(34,197,94,0.12); --acc-border: rgba(34,197,94,0.3); --acc-shadow: rgba(34,197,94,0.2); }
-  .contact-btn.email { --acc: #f9a825; --acc-bg: rgba(249,168,37,0.12); --acc-border: rgba(249,168,37,0.3); --acc-shadow: rgba(249,168,37,0.2); }
+  .contact-btn.vk { --acc: #0077FF; --acc-bg: rgba(0,119,255,0.12); --acc-bg-hover: rgba(0,119,255,0.2); --acc-border: rgba(0,119,255,0.3); --acc-border-hover: rgba(0,119,255,0.5); --acc-shadow: rgba(0,119,255,0.2); }
+  .contact-btn.telegram { --acc: #229ED9; --acc-bg: rgba(34,158,217,0.12); --acc-bg-hover: rgba(34,158,217,0.2); --acc-border: rgba(34,158,217,0.3); --acc-border-hover: rgba(34,158,217,0.5); --acc-shadow: rgba(34,158,217,0.2); }
+  .contact-btn.max { --acc: #8B5CF6; --acc-bg: rgba(139,92,246,0.12); --acc-bg-hover: rgba(139,92,246,0.2); --acc-border: rgba(139,92,246,0.3); --acc-border-hover: rgba(139,92,246,0.5); --acc-shadow: rgba(139,92,246,0.2); }
+  .contact-btn.jivo { --acc: #22c55e; --acc-bg: rgba(34,197,94,0.12); --acc-bg-hover: rgba(34,197,94,0.2); --acc-border: rgba(34,197,94,0.3); --acc-border-hover: rgba(34,197,94,0.5); --acc-shadow: rgba(34,197,94,0.2); }
+  .contact-btn.email { --acc: #f9a825; --acc-bg: rgba(249,168,37,0.12); --acc-bg-hover: rgba(249,168,37,0.2); --acc-border: rgba(249,168,37,0.3); --acc-border-hover: rgba(249,168,37,0.5); --acc-shadow: rgba(249,168,37,0.2); }
 
+  /* ===== TOAST ===== */
   .toast {
     position: fixed;
     left: 50%;
-    bottom: 32px;
+    bottom: calc(32px + env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(140px);
     display: flex;
     align-items: center;
@@ -1541,6 +1884,7 @@
     font-weight: 600;
   }
 
+  /* ===== MEDIA ===== */
   @media (max-width: 1100px) {
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 13px; }
@@ -1549,6 +1893,7 @@
     .copy-ip .ip-label { display: none; }
     .nav { padding: 18px 24px; }
     .nav.scrolled { padding: 12px 24px; }
+    .stats-panel { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 950px) {
@@ -1566,6 +1911,49 @@
     .quote { padding: 44px 32px; }
     .hero-icon { width: 80px; height: 80px; border-radius: 20px; }
     .action-grid { grid-template-columns: 1fr; }
+    .timeline-v::before { left: 12px; transform: none; }
+    .tl-item,
+    .tl-item:nth-child(odd),
+    .tl-item:nth-child(even) {
+      grid-template-columns: 24px 1fr;
+      transform: translateX(0);
+    }
+    .tl-item:nth-child(odd),
+    .tl-item:nth-child(even) { opacity: 0; transform: translateY(30px); }
+    .tl-item.active { opacity: 1; transform: translateY(0); }
+    .tl-dot { grid-column: 1; justify-self: start; margin-left: 4px; }
+    .tl-card,
+    .tl-item:nth-child(even) .tl-card {
+      grid-column: 2;
+      text-align: left;
+      padding: 22px 24px;
+      margin-left: 16px;
+    }
+    .tl-card::after,
+    .tl-item:nth-child(even) .tl-card::after {
+      top: 50%;
+      right: auto;
+      left: -8px;
+      border: none;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      border-right: none;
+      border-bottom: none;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+    .tl-item:hover .tl-card::after {
+      border-top-color: var(--line-accent);
+      border-left-color: var(--line-accent);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .fact-strip { grid-template-columns: 1fr; }
+    .fact-strip .fact { border-right: none; border-bottom: 1px solid var(--line); }
+    .fact-strip .fact:last-child { border-bottom: none; }
+    .stats-panel { grid-template-columns: repeat(2, 1fr); }
+    .numbered-list { grid-template-columns: 1fr; gap: 28px; }
+    .acc-body-inner { padding-left: 8px; }
   }
 
   @media (max-width: 600px) {
@@ -1589,10 +1977,11 @@
     .action-icon svg { width: 26px; height: 26px; }
     .action-body h3 { font-size: 19px; }
     .action-arrow { display: none; }
-    .soc { padding: 20px 20px; gap: 14px; }
-    .soc-ico { width: 46px; height: 46px; border-radius: 14px; }
-    .soc-ico svg { width: 22px; height: 22px; }
-    .soc-arrow { display: none; }
+    .soc { padding: 8px 18px 8px 8px; gap: 10px; }
+    .soc-ico { width: 34px; height: 34px; }
+    .soc-ico svg { width: 18px; height: 18px; }
+    .soc-name { font-size: 13px; }
+    .soc-handle { font-size: 11px; }
     .modal { padding: 36px 22px 24px; border-radius: 20px; }
     .modal-close { top: 12px; right: 12px; width: 32px; height: 32px; }
     .contact-btn { padding: 12px 14px; gap: 12px; }
@@ -1601,20 +1990,31 @@
     .contact-name { font-size: 14px; }
     .contact-val { font-size: 12px; }
     .contact-arrow { display: none; }
-    .howto-step { padding: 26px 22px 22px; }
-    .howto-num { width: 40px; height: 40px; font-size: 14px; }
+    .howto-line { padding-left: 50px; }
+    .howto-line::before { left: 18px; }
+    .howto-num { left: -50px; width: 40px; height: 40px; font-size: 12px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
     .btn-ip { padding: 15px 24px; font-size: 14px; }
-    .toast { bottom: 20px; padding: 12px 18px 12px 14px; gap: 12px; }
+    .toast { bottom: calc(20px + env(safe-area-inset-bottom)); padding: 12px 18px 12px 14px; gap: 12px; }
     .toast .toast-ico { width: 30px; height: 30px; }
     .toast .toast-txt { font-size: 13px; }
+    .stat-panel { padding: 32px 16px; }
+    .stat-panel-num { font-size: 30px; }
+    .stat-panel-icon { width: 34px; height: 34px; margin-bottom: 16px; }
+    .stat-panel-icon svg { width: 18px; height: 18px; }
+    .stat-panel-label { font-size: 10px; letter-spacing: 1px; }
+    .tl-card, .tl-item:nth-child(even) .tl-card { padding: 20px 20px; margin-left: 12px; }
+    .tl-card h3 { font-size: 16px; }
+    .tl-card p { font-size: 13.5px; }
+    .num-digit { font-size: 34px; min-width: 50px; }
+    .num-body h3 { font-size: 17px; }
   }
 
   @media (min-width: 1500px) { .section { max-width: 1400px; } }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal, .tl-item { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -1698,7 +2098,7 @@
     <p>Здесь нет вайпов, нет искусственных ограничений и нет разделения на «доступное» и «недоступное».</p>
     <p>Всё, что ты построил, остаётся с тобой навсегда.</p>
 
-    <div class="fact-cards">
+    <div class="fact-strip">
       <div class="fact">
         <div class="f-l">Основа</div>
         <div class="f-t">Постоянство</div>
@@ -1756,48 +2156,66 @@
     <h2>Наши <em>принципы</em></h2>
     <p class="sub">Правила, по которым живёт AnarchyOrigin</p>
   </div>
-  <div class="principles">
-    <div class="p-card reveal">
-      <div class="p-num">01</div>
-      <div class="p-body">
-        <h3>Без вайпов</h3>
-        <p>Мир существует непрерывно с момента запуска. Прогресс, постройки и ресурсы не сбросят ни через месяц, ни через год.</p>
+  <div class="accordion reveal">
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">01</span>
+        <span class="acc-title">Без вайпов</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Мир существует непрерывно с момента запуска. Прогресс, постройки и ресурсы не сбросят ни через месяц, ни через год.
+      </div></div>
     </div>
-    <div class="p-card reveal">
-      <div class="p-num">02</div>
-      <div class="p-body">
-        <h3>Растущий мир</h3>
-        <p>Границы расширяются по мере развития сообщества. Свежие территории доступны тем, кто хочет начать с нуля.</p>
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">02</span>
+        <span class="acc-title">Растущий мир</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Границы расширяются по мере развития сообщества. Свежие территории доступны тем, кто хочет начать с нуля.
+      </div></div>
     </div>
-    <div class="p-card reveal">
-      <div class="p-num">03</div>
-      <div class="p-body">
-        <h3>Настоящая экономика</h3>
-        <p>Налоги, аукцион, магазины и торговля между игроками. Экономика — не декорация, а живая система.</p>
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">03</span>
+        <span class="acc-title">Настоящая экономика</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Налоги, аукцион, магазины и торговля между игроками. Экономика — не декорация, а живая система.
+      </div></div>
     </div>
-    <div class="p-card reveal">
-      <div class="p-num">04</div>
-      <div class="p-body">
-        <h3>Свобода без хаоса</h3>
-        <p>Мы не запрещаем рейды, войны и обман. Но читы, эксплойты и баги остаются вне игры.</p>
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">04</span>
+        <span class="acc-title">Свобода без хаоса</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Мы не запрещаем рейды, войны и обман. Но читы, эксплойты и баги остаются вне игры.
+      </div></div>
     </div>
-    <div class="p-card reveal">
-      <div class="p-num">05</div>
-      <div class="p-body">
-        <h3>Минимум правил</h3>
-        <p>Свобода действий — это основа. Вмешательство происходит только там, где речь о безопасности сервера.</p>
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">05</span>
+        <span class="acc-title">Минимум правил</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Свобода действий — это основа. Вмешательство происходит только там, где речь о безопасности сервера.
+      </div></div>
     </div>
-    <div class="p-card reveal">
-      <div class="p-num">06</div>
-      <div class="p-body">
-        <h3>Долгосрочный проект</h3>
-        <p>Сервер создан не на сезон, а на годы. Мы вкладываемся в стабильность и планируем развитие на перспективу.</p>
+    <div class="acc-item">
+      <div class="acc-head">
+        <span class="acc-num">06</span>
+        <span class="acc-title">Долгосрочный проект</span>
+        <span class="acc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
       </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        Сервер создан не на сезон, а на годы. Мы вкладываемся в стабильность и планируем развитие на перспективу.
+      </div></div>
     </div>
   </div>
 </section>
@@ -1808,26 +2226,41 @@
     <h2>Цифры, которые <em>имеют значение</em></h2>
     <p class="sub">Техническое состояние сервера</p>
   </div>
-  <div class="stats">
-    <div class="s-item live-stat reveal is-hidden" id="onlineCard">
-      <div class="num live-num" id="playersOnline">0</div>
-      <div class="live-lbl"><span class="live-dot"></span>Игроков онлайн</div>
+  <div class="stats-panel">
+    <div class="stat-panel live is-hidden" id="onlineCard">
+      <div class="stat-panel-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <span class="stat-panel-num" id="playersOnline">—</span>
+      <div class="stat-panel-label"><span class="live-dot"></span>Онлайн</div>
     </div>
-    <div class="s-item reveal">
-      <div class="num" id="monthsWorked">0</div>
-      <div class="lbl">Месяцев работы</div>
+    <div class="stat-panel">
+      <div class="stat-panel-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <span class="stat-panel-num" id="monthsWorked">0</span>
+      <div class="stat-panel-label">Месяцев</div>
     </div>
-    <div class="s-item reveal">
-      <div class="num" data-count="99.8" data-decimals="1" data-suffix="%">0</div>
-      <div class="lbl">Аптайм</div>
+    <div class="stat-panel">
+      <div class="stat-panel-icon">
+        <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      </div>
+      <span class="stat-panel-num" data-count="99.8" data-decimals="1" data-suffix="%">0</span>
+      <div class="stat-panel-label">Аптайм</div>
     </div>
-    <div class="s-item reveal">
-      <div class="num" data-count="20" data-decimals="1">0</div>
-      <div class="lbl">Стабильный TPS</div>
+    <div class="stat-panel">
+      <div class="stat-panel-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <span class="stat-panel-num" data-count="20" data-decimals="1">0</span>
+      <div class="stat-panel-label">Стабильный TPS</div>
     </div>
-    <div class="s-item reveal">
-      <div class="num" data-count="70" data-suffix="">0</div>
-      <div class="lbl">Слотов</div>
+    <div class="stat-panel">
+      <div class="stat-panel-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <span class="stat-panel-num" data-count="70">0</span>
+      <div class="stat-panel-label">Слотов</div>
     </div>
   </div>
 </section>
@@ -1838,48 +2271,48 @@
     <h2>Что тебя <em>ждёт</em></h2>
     <p class="sub">Ключевые механики и возможности</p>
   </div>
-  <div class="feature-row">
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <div class="numbered-list reveal">
+    <div class="num-item">
+      <div class="num-digit">01</div>
+      <div class="num-body">
+        <h3>Приваты</h3>
+        <p>Защити базу надёжной системой приватов. Алмазные, изумрудные и другие блоки защиты.</p>
       </div>
-      <h3>Приваты</h3>
-      <p>Защити базу надёжной системой приватов. Алмазные, изумрудные и другие блоки защиты.</p>
     </div>
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
+    <div class="num-item">
+      <div class="num-digit">02</div>
+      <div class="num-body">
+        <h3>Кланы и войны</h3>
+        <p>Объединяйся, захватывай территории, воюй с другими кланами и правь на сервере.</p>
       </div>
-      <h3>Кланы и войны</h3>
-      <p>Объединяйся, захватывай территории, воюй с другими кланами и правь на сервере.</p>
     </div>
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="num-item">
+      <div class="num-digit">03</div>
+      <div class="num-body">
+        <h3>Ивенты каждый час</h3>
+        <p>Мистические сундуки ежечасно, Легендарные — ежедневно в 18:30 МСК. Аирдропы и конкурсы.</p>
       </div>
-      <h3>Ивенты каждый час</h3>
-      <p>Мистические сундуки ежечасно, Легендарные — ежедневно в 18:30 МСК. Аирдропы и конкурсы.</p>
     </div>
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    <div class="num-item">
+      <div class="num-digit">04</div>
+      <div class="num-body">
+        <h3>Экономика</h3>
+        <p>Налоги, аукцион, магазины и торговля между игроками. Живая система, а не декорация.</p>
       </div>
-      <h3>Экономика</h3>
-      <p>Налоги, аукцион, магазины и торговля между игроками. Живая система, а не декорация.</p>
     </div>
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <div class="num-item">
+      <div class="num-digit">05</div>
+      <div class="num-body">
+        <h3>Честная игра</h3>
+        <p>Мощная система защиты от читеров и эксплойтов. Только твои навыки и стратегия.</p>
       </div>
-      <h3>Честная игра</h3>
-      <p>Мощная система защиты от читеров и эксплойтов. Только твои навыки и стратегия.</p>
     </div>
-    <div class="feat reveal">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    <div class="num-item">
+      <div class="num-digit">06</div>
+      <div class="num-body">
+        <h3>Голосовой чат</h3>
+        <p>Общайся с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p>
       </div>
-      <h3>Голосовой чат</h3>
-      <p>Общайся с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p>
     </div>
   </div>
 </section>
@@ -1890,7 +2323,7 @@
     <h2>Как зайти <em>на сервер</em></h2>
     <p class="sub">Четыре простых шага — и ты в игре</p>
   </div>
-  <div class="howto">
+  <div class="howto-line">
     <div class="howto-step reveal">
       <div class="howto-num">01</div>
       <h3>Запусти Minecraft</h3>
@@ -1905,6 +2338,10 @@
       <div class="howto-num">03</div>
       <h3>Введи адрес сервера</h3>
       <p>В поле «Адрес сервера» вставь:<br><code>mc.anarchyorigin.com</code></p>
+      <button class="howto-copy" data-ip="mc.anarchyorigin.com">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span>Скопировать IP</span>
+      </button>
     </div>
     <div class="howto-step reveal">
       <div class="howto-num">04</div>
@@ -1990,65 +2427,50 @@
     <h2>Мы <em>на связи</em></h2>
     <p class="sub">Подписывайся, чтобы не пропустить новости и ивенты</p>
   </div>
-  <div class="socials">
-    <a href="https://tiktok.com/@anarchyorigin" class="soc tiktok reveal" target="_blank" rel="noopener">
+  <div class="socials reveal">
+    <a href="https://tiktok.com/@anarchyorigin" class="soc tiktok" target="_blank" rel="noopener">
       <div class="soc-ico">
         <img src="https://static.vecteezy.com/system/resources/previews/042/127/139/large_2x/square-tiktok-logo-on-a-transparent-background-free-png.png" alt="TikTok AnarchyOrigin">
       </div>
-      <div class="soc-body">
-        <div class="soc-name">TikTok</div>
-        <div class="soc-handle">@anarchyorigin</div>
-      </div>
-      <div class="soc-arrow">
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <div class="soc-info">
+        <span class="soc-name">TikTok</span>
+        <span class="soc-handle">@anarchyorigin</span>
       </div>
     </a>
-    <a href="https://url.anarchyorigin.com/discord" class="soc discord reveal" target="_blank" rel="noopener">
+    <a href="https://url.anarchyorigin.com/discord" class="soc discord" target="_blank" rel="noopener">
       <div class="soc-ico">
         <svg viewBox="0 0 24 24"><path d="M20.32 4.37a19.79 19.79 0 00-4.88-1.52.07.07 0 00-.08.04 13.79 13.79 0 00-.61 1.25 18.27 18.27 0 00-5.5 0 12.63 12.63 0 00-.62-1.25.08.08 0 00-.08-.04 19.74 19.74 0 00-4.88 1.52.07.07 0 00-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 00.03.06 19.9 19.9 0 006 3.03.08.08 0 00.08-.03 14.23 14.23 0 001.23-2 .08.08 0 00-.04-.11 13.12 13.12 0 01-1.87-.9.08.08 0 01-.01-.13c.13-.09.25-.19.37-.29a.07.07 0 01.08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 01.08.01c.12.1.25.2.37.29a.08.08 0 01-.01.13 12.32 12.32 0 01-1.87.9.08.08 0 00-.04.11 15.99 15.99 0 001.23 2 .08.08 0 00.08.03 19.84 19.84 0 006-3.03.08.08 0 00.03-.06c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 00-.03-.03zM8.02 15.33c-1.18 0-2.16-1.09-2.16-2.42s.95-2.42 2.16-2.42c1.21 0 2.18 1.1 2.16 2.42 0 1.33-.95 2.42-2.16 2.42zm7.97 0c-1.18 0-2.16-1.09-2.16-2.42s.95-2.42 2.16-2.42c1.21 0 2.18 1.1 2.16 2.42 0 1.33-.95 2.42-2.16 2.42z"/></svg>
       </div>
-      <div class="soc-body">
-        <div class="soc-name">Discord</div>
-        <div class="soc-handle">url.anarchyorigin.com/discord</div>
-      </div>
-      <div class="soc-arrow">
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <div class="soc-info">
+        <span class="soc-name">Discord</span>
+        <span class="soc-handle">url.anarchyorigin.com/discord</span>
       </div>
     </a>
-    <a href="https://youtube.com/@anarchyorigin" class="soc youtube reveal" target="_blank" rel="noopener">
+    <a href="https://youtube.com/@anarchyorigin" class="soc youtube" target="_blank" rel="noopener">
       <div class="soc-ico">
         <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1 31.3 31.3 0 00.5-5.8 31.3 31.3 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>
       </div>
-      <div class="soc-body">
-        <div class="soc-name">YouTube</div>
-        <div class="soc-handle">@anarchyorigin</div>
-      </div>
-      <div class="soc-arrow">
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <div class="soc-info">
+        <span class="soc-name">YouTube</span>
+        <span class="soc-handle">@anarchyorigin</span>
       </div>
     </a>
-    <a href="https://vk.com/anarchyorigin" class="soc vk reveal" target="_blank" rel="noopener">
+    <a href="https://vk.com/anarchyorigin" class="soc vk" target="_blank" rel="noopener">
       <div class="soc-ico">
         <svg viewBox="0 0 24 24"><path d="M13.16 17.58c-6.13 0-9.63-4.2-9.77-11.19h3.07c.1 5.13 2.36 7.3 4.15 7.75V6.39h2.89v4.43c1.77-.19 3.62-2.2 4.25-4.43h2.89a8.55 8.55 0 01-3.93 5.6 8.85 8.85 0 014.29 5.59h-3.18a5.51 5.51 0 00-4.32-4v4z"/></svg>
       </div>
-      <div class="soc-body">
-        <div class="soc-name">VK</div>
-        <div class="soc-handle">vk.com/anarchyorigin</div>
-      </div>
-      <div class="soc-arrow">
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <div class="soc-info">
+        <span class="soc-name">VK</span>
+        <span class="soc-handle">vk.com/anarchyorigin</span>
       </div>
     </a>
-    <a href="https://t.me/anarchyorigin" class="soc telegram reveal" target="_blank" rel="noopener">
+    <a href="https://t.me/anarchyorigin" class="soc telegram" target="_blank" rel="noopener">
       <div class="soc-ico">
         <svg viewBox="0 0 24 24"><path d="M9.04 15.47l-.38 5.32c.55 0 .79-.24 1.08-.52l2.6-2.48 5.39 3.94c.99.55 1.7.26 1.97-.91l3.57-16.7h.001c.32-1.47-.53-2.05-1.49-1.69L1.64 10.38c-1.42.55-1.4 1.34-.24 1.7l4.97 1.55L17.9 6.9c.54-.36 1.04-.16.63.2z"/></svg>
       </div>
-      <div class="soc-body">
-        <div class="soc-name">Telegram</div>
-        <div class="soc-handle">t.me/anarchyorigin</div>
-      </div>
-      <div class="soc-arrow">
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <div class="soc-info">
+        <span class="soc-name">Telegram</span>
+        <span class="soc-handle">t.me/anarchyorigin</span>
       </div>
     </a>
   </div>
@@ -2060,48 +2482,54 @@
     <h2>Как мы <em>развивались</em></h2>
     <p class="sub">Ключевые этапы проекта</p>
   </div>
-  <div class="timeline">
-    <div class="tl-item reveal">
-      <div class="tl-year">2025</div>
-      <div class="tl-body">
+  <div class="timeline-v">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2025</div>
         <h3>Запуск сервера</h3>
         <p>Открытие AnarchyOrigin с базовой инфраструктурой: авторизация, защита от читеров, простые приваты.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
-    <div class="tl-item reveal">
-      <div class="tl-year">2026</div>
-      <div class="tl-body">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2026</div>
         <h3>Расширение границ</h3>
         <p>Первое расширение мира для новых игроков. Начало работы налоговой системы и аукциона.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
-    <div class="tl-item reveal">
-      <div class="tl-year">2026</div>
-      <div class="tl-body">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2026</div>
         <h3>Внедрение ивентов</h3>
         <p>Ежечасные Мистические сундуки и ежедневный Легендарный сундук. Аирдропы и конкурсы.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
-    <div class="tl-item reveal">
-      <div class="tl-year">2026</div>
-      <div class="tl-body">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2026</div>
         <h3>Голосовой чат и кланы</h3>
         <p>Поддержка голосового общения в реальном времени и расширенная система кланов.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
-    <div class="tl-item reveal">
-      <div class="tl-year">2026</div>
-      <div class="tl-body">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2026</div>
         <h3>Оптимизация</h3>
         <p>Переработка инфраструктуры под высокую нагрузку. Достигнут стабильный TPS 20.0 и аптайм 99,8%.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
-    <div class="tl-item reveal">
-      <div class="tl-year">2026</div>
-      <div class="tl-body">
+    <div class="tl-item" data-tl>
+      <div class="tl-card">
+        <div class="tl-year">2026</div>
         <h3>Работа с сообществом</h3>
         <p>Запуск программы для блогеров и стримеров. Расширение медиа-раздела и поддержка авторов контента.</p>
       </div>
+      <div class="tl-dot"></div>
     </div>
   </div>
 </section>
@@ -2120,25 +2548,14 @@
     <p>В ближайших планах — расширение игровых механик, углубление системы кланов, новые типы ивентов и улучшение инфраструктуры.</p>
     <p>Всё это — без компромиссов по стабильности и без вайпов.</p>
 
-    <div class="fact-cards">
-      <div class="fact">
-        <div class="f-l">Механики</div>
-        <div class="f-t">Расширение</div>
-        <div class="f-d">Новые игровые системы и углубление существующих</div>
-      </div>
-      <div class="fact">
-        <div class="f-l">Кланы</div>
-        <div class="f-t">Углубление</div>
-        <div class="f-d">Больше возможностей для коллективной игры</div>
-      </div>
-      <div class="fact">
-        <div class="f-l">Ивенты</div>
-        <div class="f-t">Разнообразие</div>
-        <div class="f-d">Новые типы событий и награды</div>
-      </div>
+    <div class="goal-tags">
+      <span class="goal-tag">Расширение механик</span>
+      <span class="goal-tag">Углубление кланов</span>
+      <span class="goal-tag">Новые ивенты</span>
+      <span class="goal-tag">Развитие инфраструктуры</span>
     </div>
 
-    <p style="margin-top: 8px;">Если ты ищешь сервер, где можно <strong>строить долгосрочные планы</strong> и не бояться, что однажды всё исчезнет — AnarchyOrigin для тебя.</p>
+    <p style="margin-top: 20px;">Если ты ищешь сервер, где можно <strong>строить долгосрочные планы</strong> и не бояться, что однажды всё исчезнет — AnarchyOrigin для тебя.</p>
     <p>Мы здесь надолго.</p>
   </div>
 </section>
@@ -2213,7 +2630,7 @@
         </div>
         <div class="contact-body">
           <div class="contact-name">Telegram</div>
-          <div class="contact-val">t.me/anarchyorigin</div>
+          <div class="contact-val">t.me/anarchyorigin?direct</div>
         </div>
         <div class="contact-arrow">
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -2329,7 +2746,7 @@
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
+  }, { passive: true });
 
   const burger = document.getElementById('burger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -2371,31 +2788,57 @@
     io.observe(el);
   });
 
-  function runCount(el) {
+  const tlObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        tlObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('[data-tl]').forEach(el => tlObserver.observe(el));
+
+  function animateCount(el) {
     const target = parseFloat(el.dataset.count);
     const decimals = parseInt(el.dataset.decimals || 0);
     const suffix = el.dataset.suffix || '';
-    const time = 2000;
+    const duration = 2000;
     const start = performance.now();
 
-    (function step(now) {
-      const p = Math.min((now - start) / time, 1);
-      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       el.textContent = (target * eased).toFixed(decimals) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    })(start);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
 
-  const statIO = new IntersectionObserver((entries) => {
+  const countObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        runCount(entry.target);
-        statIO.unobserve(entry.target);
+        animateCount(entry.target);
+        countObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
 
-  document.querySelectorAll('.num[data-count]').forEach(el => statIO.observe(el));
+  document.querySelectorAll('.stat-panel-num[data-count]').forEach(el => countObserver.observe(el));
+
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.acc-item');
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.acc-item.open').forEach(other => {
+        if (other !== item) other.classList.remove('open');
+      });
+
+      item.classList.toggle('open', !wasOpen);
+    });
+  });
 
   (function() {
     const el = document.getElementById('monthsWorked');
@@ -2407,7 +2850,7 @@
     function setMonths(currentYear, currentMonth) {
       const months = Math.max(0, (currentYear - startYear) * 12 + (currentMonth - startMonth));
       el.dataset.count = months;
-      statIO.observe(el);
+      countObserver.observe(el);
     }
 
     fetchWithTimeout('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', 8000)
@@ -2529,21 +2972,17 @@
     }
 
     function fetchOnline() {
+      if (document.hidden) return;
       fetchWithTimeout(apiUrl, 8000)
         .then(r => r.json())
         .then(data => {
           if (!data || !data.online) return;
-
           if (data.players && typeof data.players.online === 'number') {
             playersEl.textContent = data.players.online;
           } else {
             playersEl.textContent = '0';
           }
-
-          if (data.version) {
-            updateVersion(data.version);
-          }
-
+          if (data.version) updateVersion(data.version);
           revealOnlineCard();
         })
         .catch(() => {});
@@ -2551,6 +2990,9 @@
 
     fetchOnline();
     setInterval(fetchOnline, 60000);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) fetchOnline();
+    });
   })();
 
   (function() {
