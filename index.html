@@ -602,7 +602,7 @@
   .fact .f-t { font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
   .fact .f-d { font-size: 14px; color: var(--t2); line-height: 1.5; }
 
-  /* ===== CHECKS (list style) ===== */
+  /* ===== CHECKS ===== */
   .check-list { display: grid; gap: 0; margin-top: 8px; border-top: 1px solid var(--line); }
 
   .check {
@@ -632,7 +632,7 @@
   .check-txt { color: var(--t2); font-size: 15px; line-height: 1.6; }
   .check-txt strong { color: var(--t1); font-weight: 700; }
 
-  /* ===== ACCORDION (principles) ===== */
+  /* ===== ACCORDION ===== */
   .accordion {
     display: grid;
     gap: 12px;
@@ -812,10 +812,17 @@
   /* ===== STATS PANEL ===== */
   .stats-panel {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 14px;
     max-width: 1100px;
     margin: 0 auto;
+    transition: max-width 0.5s cubic-bezier(0.16,1,0.3,1), grid-template-columns 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* Когда онлайн скрыт — 4 карточки по центру */
+  .stats-panel:has(#onlineCard.is-hidden) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 880px;
   }
 
   .stat-panel {
@@ -998,7 +1005,7 @@
     line-height: 1.65;
   }
 
-  /* ===== HOWTO STEPS ===== */
+  /* ===== HOWTO ===== */
   .howto-list {
     max-width: 780px;
     margin: 0 auto;
@@ -1233,7 +1240,7 @@
   .visual-cap { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--o3); margin-bottom: 8px; }
   .visual-txt { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--t1); }
 
-  /* ===== ACTION CARDS (services) ===== */
+  /* ===== ACTION CARDS ===== */
   .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
   .action-card {
@@ -1338,58 +1345,87 @@
     --icon-border-hover: rgba(34,197,94,0.5);
   }
 
-  /* ===== SOCIALS PILLS ===== */
+  /* ===== SOCIALS — крупные кнопки ===== */
   .socials {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
-    max-width: 900px;
+    gap: 14px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
   .soc {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 22px 10px 10px;
-    border-radius: 50px;
-    background: rgba(255,255,255,0.03);
+    gap: 16px;
+    padding: 14px 28px 14px 14px;
+    border-radius: 60px;
+    background: rgba(255,255,255,0.04);
     border: 1px solid var(--line);
-    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+    min-height: 78px;
+  }
+
+  .soc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, var(--soc-color) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
   }
 
   .soc:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     border-color: var(--soc-color);
-    box-shadow: 0 12px 36px var(--soc-shadow);
+    box-shadow: 0 20px 50px var(--soc-shadow);
+    background: rgba(255,255,255,0.06);
   }
 
+  .soc:hover::before { opacity: 0.1; }
+
   .soc-ico {
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: background 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
     overflow: hidden;
+    position: relative;
+    z-index: 1;
   }
 
-  .soc-ico svg { width: 20px; height: 20px; fill: #fff; }
-  .soc-ico img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 6px; }
+  .soc:hover .soc-ico { transform: scale(1.06); }
+
+  .soc-ico svg { width: 26px; height: 26px; fill: #fff; }
+  .soc-ico img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 8px; }
 
   .soc-info {
     display: flex;
     flex-direction: column;
+    gap: 3px;
     line-height: 1.25;
     min-width: 0;
+    position: relative;
+    z-index: 1;
   }
 
-  .soc-name { font-size: 14px; font-weight: 700; color: var(--t1); letter-spacing: -0.01em; }
+  .soc-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--t1);
+    letter-spacing: -0.01em;
+  }
+
   .soc-handle {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--t3);
     font-family: 'JetBrains Mono', monospace;
     white-space: nowrap;
@@ -1399,22 +1435,22 @@
   }
   .soc:hover .soc-handle { color: var(--soc-color); }
 
-  .soc.tiktok { --soc-color: #00f2ea; --soc-shadow: rgba(0,242,234,0.2); }
+  .soc.tiktok { --soc-color: #00f2ea; --soc-shadow: rgba(0,242,234,0.25); }
   .soc.tiktok .soc-ico { background: #000; box-shadow: 0 8px 24px rgba(255,0,80,0.3); }
 
-  .soc.discord { --soc-color: #5865F2; --soc-shadow: rgba(88,101,242,0.25); }
-  .soc.discord .soc-ico { background: #5865F2; box-shadow: 0 8px 24px rgba(88,101,242,0.35); }
+  .soc.discord { --soc-color: #5865F2; --soc-shadow: rgba(88,101,242,0.3); }
+  .soc.discord .soc-ico { background: #5865F2; box-shadow: 0 8px 24px rgba(88,101,242,0.4); }
 
-  .soc.youtube { --soc-color: #FF0000; --soc-shadow: rgba(255,0,0,0.25); }
-  .soc.youtube .soc-ico { background: #FF0000; box-shadow: 0 8px 24px rgba(255,0,0,0.35); }
+  .soc.youtube { --soc-color: #FF0000; --soc-shadow: rgba(255,0,0,0.3); }
+  .soc.youtube .soc-ico { background: #FF0000; box-shadow: 0 8px 24px rgba(255,0,0,0.4); }
 
-  .soc.vk { --soc-color: #0077FF; --soc-shadow: rgba(0,119,255,0.25); }
-  .soc.vk .soc-ico { background: #0077FF; box-shadow: 0 8px 24px rgba(0,119,255,0.35); }
+  .soc.vk { --soc-color: #0077FF; --soc-shadow: rgba(0,119,255,0.3); }
+  .soc.vk .soc-ico { background: #0077FF; box-shadow: 0 8px 24px rgba(0,119,255,0.4); }
 
-  .soc.telegram { --soc-color: #229ED9; --soc-shadow: rgba(34,158,217,0.25); }
-  .soc.telegram .soc-ico { background: #229ED9; box-shadow: 0 8px 24px rgba(34,158,217,0.35); }
+  .soc.telegram { --soc-color: #229ED9; --soc-shadow: rgba(34,158,217,0.3); }
+  .soc.telegram .soc-ico { background: #229ED9; box-shadow: 0 8px 24px rgba(34,158,217,0.4); }
 
-  /* ===== TIMELINE VERTICAL ===== */
+  /* ===== TIMELINE ===== */
   .timeline-v {
     position: relative;
     max-width: 1000px;
@@ -1992,7 +2028,12 @@
     .copy-ip .ip-label { display: none; }
     .nav { padding: 18px 24px; }
     .nav.scrolled { padding: 12px 24px; }
-    .stats-panel { grid-template-columns: repeat(3, 1fr); }
+
+    .stats-panel { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats-panel:has(#onlineCard.is-hidden) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 480px;
+    }
   }
 
   @media (max-width: 950px) {
@@ -2050,14 +2091,17 @@
     .fact-strip { grid-template-columns: 1fr; }
     .fact-strip .fact { border-right: none; border-bottom: 1px solid var(--line); }
     .fact-strip .fact:last-child { border-bottom: none; }
-    .stats-panel { grid-template-columns: repeat(2, 1fr); }
+    .stats-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-panel:has(#onlineCard.is-hidden) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: none;
+    }
     .numbered-list { grid-template-columns: 1fr; gap: 28px; }
     .acc-body-inner { padding-left: 24px; }
   }
 
   @media (max-width: 600px) {
     .section { padding: 64px 18px; }
-    .principles, .stats, .timeline, .feature-row, .fact-cards, .socials, .howto { grid-template-columns: 1fr; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .btn-ip { justify-content: center; width: 100%; }
     .cta { padding: 90px 20px; }
@@ -2073,11 +2117,14 @@
     .action-icon svg { width: 26px; height: 26px; }
     .action-body h3 { font-size: 19px; }
     .action-arrow { display: none; }
-    .soc { padding: 8px 18px 8px 8px; gap: 10px; }
-    .soc-ico { width: 34px; height: 34px; }
-    .soc-ico svg { width: 18px; height: 18px; }
-    .soc-name { font-size: 13px; }
-    .soc-handle { font-size: 11px; }
+
+    .soc { padding: 12px 20px 12px 12px; gap: 12px; min-height: 66px; }
+    .soc-ico { width: 44px; height: 44px; }
+    .soc-ico svg { width: 22px; height: 22px; }
+    .soc-ico img { padding: 6px; }
+    .soc-name { font-size: 15px; }
+    .soc-handle { font-size: 12px; }
+
     .modal { padding: 36px 22px 24px; border-radius: 20px; }
     .modal-close { top: 12px; right: 12px; width: 32px; height: 32px; }
     .contact-btn { padding: 12px 14px; gap: 12px; }
@@ -2086,6 +2133,7 @@
     .contact-name { font-size: 14px; }
     .contact-val { font-size: 12px; }
     .contact-arrow { display: none; }
+
     .howto-step { padding: 20px 18px; gap: 16px; }
     .howto-num { width: 46px; height: 46px; border-radius: 13px; font-size: 15px; }
     .howto-tip { padding: 16px 18px; font-size: 14px; }
@@ -2093,11 +2141,13 @@
     .toast { bottom: calc(20px + env(safe-area-inset-bottom)); padding: 12px 18px 12px 14px; gap: 12px; }
     .toast .toast-ico { width: 30px; height: 30px; }
     .toast .toast-txt { font-size: 13px; }
+
     .stat-panel { padding: 32px 16px; }
     .stat-panel-num { font-size: 30px; }
     .stat-panel-icon { width: 34px; height: 34px; margin-bottom: 16px; }
     .stat-panel-icon svg { width: 18px; height: 18px; }
     .stat-panel-label { font-size: 10px; letter-spacing: 1px; }
+
     .tl-card, .tl-item:nth-child(even) .tl-card { padding: 20px 20px; margin-left: 12px; }
     .tl-card h3 { font-size: 16px; }
     .tl-card p { font-size: 13.5px; }
@@ -2543,7 +2593,7 @@
       </div>
       <div class="soc-info">
         <span class="soc-name">TikTok</span>
-        <span class="soc-handle">@anarchyorigin</span>
+        <span class="soc-handle">tiktok.com/@anarchyorigin</span>
       </div>
     </a>
     <a href="https://url.anarchyorigin.com/discord" class="soc discord" target="_blank" rel="noopener">
@@ -2561,7 +2611,7 @@
       </div>
       <div class="soc-info">
         <span class="soc-name">YouTube</span>
-        <span class="soc-handle">@anarchyorigin</span>
+        <span class="soc-handle">youtube.com/@anarchyorigin</span>
       </div>
     </a>
     <a href="https://vk.com/anarchyorigin" class="soc vk" target="_blank" rel="noopener">
