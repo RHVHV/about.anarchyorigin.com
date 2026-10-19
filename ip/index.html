@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0c10">
+    <title>Ваш IP-адрес — AnarchyOrigin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --bg-card: #111318;
+            --text: #eef0f5;
+            --text-muted: #8a90a2;
+            --accent: #ff6b2c;
+            --accent-hover: #ff7a42;
+            --accent-success: #2ea043;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+            --shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Фоновый декор */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 107, 44, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 10%, transparent 70%);
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Кнопка назад */
+        .back-link {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            transition: all 0.25s ease;
+            z-index: 10;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(-4px);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.25s ease;
+        }
+
+        .back-link:hover svg {
+            transform: translateX(-2px);
+        }
+
+        /* Основная карточка */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .card-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Блок с IP */
+        .ip-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .ip-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: clamp(24px, 6vw, 36px);
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            word-break: break-all;
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .ip-value.loading {
+            color: var(--text-muted);
+            font-size: 18px;
+            letter-spacing: normal;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Кнопка копирования */
+        .btn-copy {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent), #ff8a5c);
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+            box-shadow: 0 8px 24px -8px rgba(255, 107, 44, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px -8px rgba(255, 107, 44, 0.6);
+        }
+
+        .btn-copy:active {
+            transform: translateY(0);
+        }
+
+        .btn-copy.copied {
+            background: var(--accent-success);
+            box-shadow: 0 8px 24px -8px rgba(46, 160, 67, 0.5);
+            pointer-events: none;
+        }
+
+        .btn-copy svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .btn-copy .icon-check {
+            display: none;
+        }
+
+        .btn-copy.copied .icon-copy {
+            display: none;
+        }
+
+        .btn-copy.copied .icon-check {
+            display: block;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .back-link {
+                top: 20px;
+                left: 20px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            .card {
+                padding: 32px 24px;
+                border-radius: 20px;
+            }
+            .ip-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <a href="https://about.anarchyorigin.com" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        На главную
+    </a>
+
+    <main class="card">
+        <div class="card-header">
+            <h1>Ваш IP-адрес</h1>
+            <p>Данные определены автоматически на основе вашего сетевого подключения.</p>
+        </div>
+
+        <div class="ip-box">
+            <span id="ipDisplay" class="ip-value loading">Загрузка...</span>
+        </div>
+
+        <button id="copyBtn" class="btn-copy" disabled>
+            <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span id="btnText">Скопировать</span>
+        </button>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ipDisplay = document.getElementById('ipDisplay');
+            const copyBtn = document.getElementById('copyBtn');
+            const btnText = document.getElementById('btnText');
+            let userIp = '';
+
+            async function fetchIp() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const data = await response.json();
+                    
+                    userIp = data.ip;
+                    ipDisplay.textContent = userIp;
+                    ipDisplay.classList.remove('loading');
+                    
+                    copyBtn.disabled = false;
+                    copyBtn.style.opacity = '1';
+                } catch (error) {
+                    ipDisplay.textContent = 'Ошибка определения';
+                    ipDisplay.style.color = '#ff6b6b';
+                    ipDisplay.classList.remove('loading');
+                }
+            }
+
+            copyBtn.addEventListener('click', async () => {
+                if (!userIp) return;
+
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(userIp);
+                    } else {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = userIp;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        document.execCommand('copy');
+                        textArea.remove();
+                    }
+
+                    copyBtn.classList.add('copied');
+                    btnText.textContent = 'Скопировано!';
+
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        btnText.textContent = 'Скопировать';
+                    }, 2500);
+
+                } catch (err) {
+                    btnText.textContent = 'Ошибка';
+                    setTimeout(() => {
+                        btnText.textContent = 'Скопировать';
+                    }, 2000);
+                }
+            });
+
+            fetchIp();
+        });
+    </script>
+</body>
+</html>
