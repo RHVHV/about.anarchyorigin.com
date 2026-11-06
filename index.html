@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AnarchyOrigin">
 <meta property="og:title" content="AnarchyOrigin — Minecraft-сервер в жанре анархии без вайпов">
-<meta property="og:description" content="Постоянный мир, живая экономика, кланы и войны. Подключайся: mc.anarchyorigin.com">
+<meta property="og:description" content="Постоянный мир, живая экономика, кланы и войны. Подключайтесь: mc.anarchyorigin.com">
 <meta property="og:url" content="https://about.anarchyorigin.com/">
 <meta property="og:image" content="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png">
 <meta property="og:image:width" content="512">
@@ -27,7 +27,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AnarchyOrigin — Minecraft-сервер в жанре анархии без вайпов">
-<meta name="twitter:description" content="Постоянный мир, живая экономика, кланы и войны. Подключайся: mc.anarchyorigin.com">
+<meta name="twitter:description" content="Постоянный мир, живая экономика, кланы и войны. Подключайтесь: mc.anarchyorigin.com">
 <meta name="twitter:image" content="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png">
 <meta name="twitter:image:alt" content="AnarchyOrigin">
 <link rel="icon" type="image/png" href="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png">
@@ -152,7 +152,6 @@
   /* SECTIONS */
   .section { position: relative; padding: 110px 24px; max-width: 1280px; margin: 0 auto; z-index: 1; }
   .narrow { max-width: 900px; }
-  #how-to-connect { scroll-margin-top: 90px; }
   .head { text-align: center; margin-bottom: 60px; }
   .head-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--o3); margin-bottom: 18px; padding: 6px 16px; background: rgba(230,92,0,0.08); border: 1px solid rgba(230,92,0,0.2); border-radius: 50px; }
   .section h2 { font-size: clamp(30px, 5vw, 54px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; padding-bottom: 0.05em; }
@@ -278,6 +277,11 @@
   .quote .q-t { font-size: clamp(19px, 2.4vw, 25px); font-weight: 600; line-height: 1.5; color: var(--t1); margin-bottom: 18px; font-style: italic; }
   .quote .q-a { font-size: 13px; color: var(--o3); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 
+  .goal-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; justify-content: center; }
+  .goal-tag { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 50px; background: rgba(230,92,0,0.08); border: 1px solid rgba(230,92,0,0.2); font-size: 14px; font-weight: 600; color: var(--t1); transition: all 0.3s ease; }
+  .goal-tag:hover { border-color: rgba(230,92,0,0.45); background: rgba(230,92,0,0.12); transform: translateY(-2px); }
+  .goal-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--o2); box-shadow: 0 0 8px var(--o2); flex-shrink: 0; }
+
   .cta { position: relative; padding: 130px 24px; text-align: center; z-index: 1; overflow: hidden; }
   .cta-inner { position: relative; max-width: 720px; margin: 0 auto; }
   .cta-icon { width: 72px; height: 72px; margin: 0 auto 24px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(230,92,0,0.4); box-shadow: 0 0 50px rgba(230,92,0,0.3); background: #0d0d14; animation: floatIcon 6s ease-in-out infinite; }
@@ -393,9 +397,9 @@
     </a>
     <a href="https://anarchyorigin.com">Главная</a>
     <a href="https://media.anarchyorigin.com">Блогерам</a>
-    <a href="social.html">Мы в соц сетях</a>
+    <a href="#social" data-scroll="social">Мы в соц сетях</a>
     <a href="https://news.anarchyorigin.com">Новости</a>
-    <a data-scroll="how-to-connect">Как зайти</a>
+    <a href="#how-to-connect" data-scroll="how-to-connect">Как зайти</a>
     <a data-modal="support">Поддержка</a>
   </div>
   <div class="nav-actions">
@@ -414,9 +418,9 @@
   <a href="https://anarchyorigin.com" class="mobile-donate">Купить донат</a>
   <a href="https://anarchyorigin.com">Главная</a>
   <a href="https://media.anarchyorigin.com">Блогерам</a>
-  <a href="social.html">Мы в соц сетях</a>
+  <a href="#social" data-scroll="social">Мы в соц сетях</a>
   <a href="https://news.anarchyorigin.com">Новости</a>
-  <a data-scroll="how-to-connect">Как зайти</a>
+  <a href="#how-to-connect" data-scroll="how-to-connect">Как зайти</a>
   <a data-modal="support">Поддержка</a>
   <a href="https://anarchyorigin.com/rules">Правила</a>
   <a href="https://anarchyorigin.com/requisites">Реквизиты</a>
@@ -427,7 +431,7 @@
   </button>
 </div>
 
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
@@ -451,11 +455,11 @@
   </div>
 </section>
 
-<section class="section narrow">
+<section class="section narrow" id="about">
   <div class="text-block reveal">
     <p><strong>AnarchyOrigin</strong> — Minecraft-сервер в жанре анархии, построенный на принципе <span class="hl">постоянства мира</span>.</p>
     <p>Здесь нет вайпов, нет искусственных ограничений и нет разделения на «доступное» и «недоступное».</p>
-    <p>Всё, что ты построил, остаётся с тобой навсегда.</p>
+    <p>Всё, что Вы построили, остаётся с Вами навсегда.</p>
 
     <div class="fact-strip">
       <div class="fact">
@@ -477,7 +481,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="principles">
   <div class="head reveal">
     <div class="head-label">Подход</div>
     <h2>Свобода, <em>подкреплённая стабильностью</em></h2>
@@ -504,12 +508,12 @@
     </div>
     <div class="check">
       <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="check-txt"><strong>Мы не сбрасываем мир.</strong> Твой прогресс не исчезнет ни через месяц, ни через год.</div>
+      <div class="check-txt"><strong>Мы не сбрасываем мир.</strong> Ваш прогресс не исчезнет ни через месяц, ни через год.</div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="concept">
   <div class="head reveal">
     <div class="head-label">Концепция</div>
     <h2>Наши <em>принципы</em></h2>
@@ -579,7 +583,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="stats">
   <div class="head reveal">
     <div class="head-label">Стабильность</div>
     <h2>Цифры, которые <em>имеют значение</em></h2>
@@ -624,20 +628,20 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="features">
   <div class="head reveal">
     <div class="head-label">Внутри игры</div>
-    <h2>Что тебя <em>ждёт</em></h2>
+    <h2>Что Вас <em>ждёт</em></h2>
     <p class="sub">Ключевые механики и возможности</p>
   </div>
   <div class="numbered-list reveal">
     <div class="num-item">
       <div class="num-digit">01</div>
-      <div class="num-body"><h3>Приваты</h3><p>Защити базу надёжной системой приватов. Алмазные, изумрудные и другие блоки защиты.</p></div>
+      <div class="num-body"><h3>Приваты</h3><p>Защитите базу надёжной системой приватов. Алмазные, изумрудные и другие блоки защиты.</p></div>
     </div>
     <div class="num-item">
       <div class="num-digit">02</div>
-      <div class="num-body"><h3>Кланы и войны</h3><p>Объединяйся, захватывай территории, воюй с другими кланами и правь на сервере.</p></div>
+      <div class="num-body"><h3>Кланы и войны</h3><p>Объединяйтесь, захватывайте территории, воюйте с другими кланами и правьте на сервере.</p></div>
     </div>
     <div class="num-item">
       <div class="num-digit">03</div>
@@ -649,11 +653,11 @@
     </div>
     <div class="num-item">
       <div class="num-digit">05</div>
-      <div class="num-body"><h3>Честная игра</h3><p>Мощная система защиты от читеров и эксплойтов. Только твои навыки и стратегия.</p></div>
+      <div class="num-body"><h3>Честная игра</h3><p>Мощная система защиты от читеров и эксплойтов. Только Ваши навыки и стратегия.</p></div>
     </div>
     <div class="num-item">
       <div class="num-digit">06</div>
-      <div class="num-body"><h3>Голосовой чат</h3><p>Общайся с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p></div>
+      <div class="num-body"><h3>Голосовой чат</h3><p>Общайтесь с друзьями и врагами в реальном времени прямо в игре без сторонних программ.</p></div>
     </div>
   </div>
 </section>
@@ -662,28 +666,28 @@
   <div class="head reveal">
     <div class="head-label">Инструкция</div>
     <h2>Как зайти <em>на сервер</em></h2>
-    <p class="sub">Четыре простых шага — и ты в игре</p>
+    <p class="sub">Четыре простых шага — и Вы в игре</p>
   </div>
   <div class="howto-list">
     <div class="howto-step reveal">
       <div class="howto-num"><span>01</span></div>
       <div class="howto-body">
-        <h3>Запусти Minecraft</h3>
-        <p>Открой лаунчер и запусти игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее.</p>
+        <h3>Запустите Minecraft</h3>
+        <p>Откройте лаунчер и запустите игру версии <strong style="color: var(--t1);">1.21.11</strong> или новее.</p>
       </div>
     </div>
     <div class="howto-step reveal">
       <div class="howto-num"><span>02</span></div>
       <div class="howto-body">
-        <h3>Открой «Сетевая игра»</h3>
-        <p>В главном меню выбери «Сетевая игра» и нажми «Добавить сервер», чтобы создать новую запись.</p>
+        <h3>Откройте «Сетевая игра»</h3>
+        <p>В главном меню выберите «Сетевая игра» и нажмите «Добавить сервер», чтобы создать новую запись.</p>
       </div>
     </div>
     <div class="howto-step reveal">
       <div class="howto-num"><span>03</span></div>
       <div class="howto-body">
-        <h3>Введи адрес сервера</h3>
-        <p>В поле «Адрес сервера» вставь:<br><code>mc.anarchyorigin.com</code></p>
+        <h3>Введите адрес сервера</h3>
+        <p>В поле «Адрес сервера» вставьте:<br><code>mc.anarchyorigin.com</code></p>
         <button class="howto-copy" data-ip="mc.anarchyorigin.com">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           <span>Скопировать IP</span>
@@ -693,8 +697,8 @@
     <div class="howto-step reveal">
       <div class="howto-num"><span>04</span></div>
       <div class="howto-body">
-        <h3>Подключись к игре</h3>
-        <p>Сохрани сервер, выбери его в списке и нажми «Подключиться». Загрузка мира занимает несколько секунд.</p>
+        <h3>Подключитесь к игре</h3>
+        <p>Сохраните сервер, выберите его в списке и нажмите «Подключиться». Загрузка мира занимает несколько секунд.</p>
       </div>
     </div>
   </div>
@@ -704,7 +708,7 @@
   </div>
 </section>
 
-<section class="section narrow">
+<section class="section narrow" id="server">
   <div class="visual reveal">
     <div class="visual-inner">
       <div class="visual-icon-img">
@@ -716,7 +720,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="services">
   <div class="head reveal">
     <div class="head-label">Сервисы</div>
     <h2>Поддержка <em>и донат</em></h2>
@@ -750,7 +754,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="news">
   <div class="head reveal">
     <div class="head-label">Актуальное</div>
     <h2>Новости <em>сервера</em></h2>
@@ -770,11 +774,11 @@
   </a>
 </section>
 
-<section class="section">
+<section class="section" id="social">
   <div class="head reveal">
     <div class="head-label">Соцсети</div>
     <h2>Мы <em>на связи</em></h2>
-    <p class="sub">Подписывайся, чтобы не пропустить новости и ивенты</p>
+    <p class="sub">Подписывайтесь, чтобы не пропустить новости и ивенты</p>
   </div>
   <div class="socials reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:14px; max-width:1000px; margin:0 auto;">
     <a href="https://tiktok.com/@anarchyorigin" class="soc tiktok" target="_blank" rel="noopener" style="--soc-color:#00f2ea; display:inline-flex; align-items:center; gap:16px; padding:14px 28px 14px 14px; border-radius:60px; background:rgba(255,255,255,0.04); border:1px solid var(--line); transition:all 0.35s;">
@@ -825,7 +829,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="timeline">
   <div class="head reveal">
     <div class="head-label">Хронология</div>
     <h2>Как мы <em>развивались</em></h2>
@@ -883,14 +887,14 @@
   </div>
 </section>
 
-<section class="section narrow">
+<section class="section narrow" id="quote">
   <div class="quote reveal">
-    <div class="q-t">«AnarchyOrigin — это не просто сервер. Это место, где твоя история продолжается столько, сколько ты сам захочешь.»</div>
+    <div class="q-t">«AnarchyOrigin — это не просто сервер. Это место, где Ваша история продолжается столько, сколько Вы сами захотите.»</div>
     <div class="q-a">— AnarchyOrigin</div>
   </div>
 </section>
 
-<section class="section narrow">
+<section class="section narrow" id="future">
   <div class="text-block reveal">
     <h2 style="text-align:center; margin-bottom: 32px; font-size: clamp(28px,4vw,44px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; padding-bottom: 0.05em;">Что <em style="font-style: normal; background: linear-gradient(135deg, var(--o3), var(--o2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">дальше</em></h2>
     <p>Мы не планируем останавливаться.</p>
@@ -904,18 +908,18 @@
       <span class="goal-tag">Развитие инфраструктуры</span>
     </div>
 
-    <p style="margin-top: 20px;">Если ты ищешь сервер, где можно <strong>строить долгосрочные планы</strong> и не бояться, что однажды всё исчезнет — AnarchyOrigin для тебя.</p>
+    <p style="margin-top: 20px;">Если Вы ищете сервер, где можно <strong>строить долгосрочные планы</strong> и не бояться, что однажды всё исчезнет — AnarchyOrigin для Вас.</p>
     <p>Мы здесь надолго.</p>
   </div>
 </section>
 
-<section class="cta">
+<section class="cta" id="cta">
   <div class="cta-inner reveal">
     <div class="cta-icon">
       <img src="https://github.com/RHVHV/about.anarchyorigin.com/releases/download/v1.0.0/icon-server.png" alt="AnarchyOrigin">
     </div>
-    <h2>Готов <em>начать?</em></h2>
-    <p>Заходи на сервер и начни свою историю прямо сейчас.</p>
+    <h2>Готовы <em>начать?</em></h2>
+    <p>Заходите на сервер и начните свою историю прямо сейчас.</p>
     <div class="hero-actions">
       <button class="btn-ip" data-ip="mc.anarchyorigin.com">
         <span class="dot"></span>
@@ -944,9 +948,9 @@
   <div class="f-links">
     <a href="https://anarchyorigin.com">Главная</a>
     <a href="https://media.anarchyorigin.com">Блогерам</a>
-    <a href="social.html">Мы в соц сетях</a>
+    <a href="#social" data-scroll="social">Мы в соц сетях</a>
     <a href="https://news.anarchyorigin.com">Новости</a>
-    <a data-scroll="how-to-connect">Как зайти</a>
+    <a href="#how-to-connect" data-scroll="how-to-connect">Как зайти</a>
     <a data-modal="support">Поддержка</a>
     <a href="https://anarchyorigin.com/rules">Правила</a>
   </div>
@@ -1298,18 +1302,20 @@
   })();
 
   (function() {
-    const targetId = 'how-to-connect';
-    function scrollToTarget() {
+    function scrollToTarget(targetId) {
       const target = document.getElementById(targetId);
       if (!target) return;
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const offset = 80;
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     }
 
-    document.querySelectorAll('[data-scroll="' + targetId + '"]').forEach(link => {
+    document.querySelectorAll('[data-scroll]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        const targetId = link.dataset.scroll;
         if (window.location.hash !== '#' + targetId) history.pushState(null, '', '#' + targetId);
-        scrollToTarget();
+        scrollToTarget(targetId);
         burger.classList.remove('open');
         mobileMenu.classList.remove('open');
       });
@@ -1321,13 +1327,15 @@
         if (window.__openModalSupport) window.__openModalSupport();
       } else {
         if (window.__closeModalSupport) window.__closeModalSupport();
-        if (hash === targetId) setTimeout(scrollToTarget, 120);
+        if (hash) {
+          setTimeout(() => scrollToTarget(hash), 120);
+        }
       }
     }
 
     window.addEventListener('hashchange', applyHash);
     window.addEventListener('popstate', applyHash);
-    applyHash();
+    if (window.location.hash) applyHash();
   })();
 </script>
 
